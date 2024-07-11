@@ -1,23 +1,116 @@
-import logo from './logo.svg';
+import React, { useState, useEffect, useCallback } from "react";
+import CourseSearch from './SearchCourses';
 import './App.css';
+import "./checkbox.css";
+import SearchForm from "./SearchForm";
+import { db } from "./firebase";
+import { collection, query, where, getDocs, limit, orderBy} from "firebase/firestore";
+import Pagination from "./Pagination";
+import CourseInfo from "./CourseInfo";
+
+
 
 function App() {
+  const [courses, setCourses] = useState([]);
+  var PAGE_SIZE = 25;
+  const [filters, setFilters] = useState({});
+  const [pageFilters, setPageFilters] = useState([limit(25)])
+  const [head, setHead] = useState(null);
+  const [tail, setTail] = useState(null);
+  const [num, setNum] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [courseInfo, setCourseInfo] = useState(null);
+  const [madgrades, setMadgrades] = useState(null);
+
+  const fetchCourses = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      console.log("Fetching courses with filters:", filters);
+      const courseRef = collection(db, "courses");
+      const constraints = [];
+      for (const [field, val] of Object.entries(filters)) {
+        if (val != null) {
+          if (field == "ethnic_studies") {
+            constraints.push(where(field, '==', val));
+            console.log("ethnic studies:" + val);
+          } else if((Array.isArray(val) && val.length > 0)){
+              if(field == "general_ed" || field == "level") {
+              constraints.push(where(field, 'in', val));
+            } else {
+              constraints.push(where(field, "array-contains-any", val));
+            }
+          }
+        }
+      }
+
+      const q = query(
+        courseRef,
+        ...constraints,
+        orderBy("gpa", "desc"),
+        ...pageFilters,
+      );
+      
+
+      const querySnapshot = await getDocs(q);
+      setHead(querySnapshot.docs[0]);
+      setTail(querySnapshot.docs[querySnapshot.docs.length-1]);
+      console.log("head", head)
+      console.log("tail", tail)
+      const courseData = [];
+      querySnapshot.forEach((doc) => {
+        const name = doc.data().subject_abbrv[0] + " " + doc.data().course_num;
+        courseData.push({ id: doc.id, name, ...doc.data() });
+      });
+      console.log("Fetched courses:", courseData);
+      
+      setCourses(courseData);
+    } catch (err) {
+      console.error("Error fetching courses:", err);
+      setError("Failed to fetch courses. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [filters, pageFilters]);
+
+  useEffect(() => {
+    fetchCourses();
+  }, [fetchCourses]);
+
   return (
+    
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="course-search">
+        <div className="header">
+        </div>
+        <div className="course-menu">
+          <div className="course-search-box">
+            <SearchForm setFilters={setFilters} setNum={setNum} setPageFilters={setPageFilters} setMadgrades={setMadgrades} setCourseInfo={setCourseInfo}/>
+          </div>
+          <div >
+            {isLoading ? (
+              <div className="course-selector">
+                <div className="course-scroll">Loading courses...</div>                
+                <Pagination disabled={courses.length < PAGE_SIZE} head={head} tail={tail} num={num} setNum={setNum} setPageFilters={setPageFilters}/>
+              </div>
+              
+            ) : error ? (
+              <div>{error}</div>
+            ) : (
+              <div className="course-selector">
+                <CourseSearch courses={courses} courseInfo={courseInfo} setCourseInfo={setCourseInfo} />
+                <Pagination disabled={courses.length < PAGE_SIZE} head={head} tail={tail} num={num} setNum={setNum} setPageFilters={setPageFilters}/>
+              </div>
+            )}
+           
+          </div>
+          <div className="course-info">
+            <CourseInfo courseInfo={courseInfo} setMadgrades={setMadgrades} madgrades={madgrades}/>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
