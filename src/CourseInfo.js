@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import { Chart as ChartJS, BarElement, Tooltip, Legend, CategoryScale, LinearScale} from "chart.js";
 import { Bar } from "react-chartjs-2";
-
+import { apiToken } from "./token";
 //register BarChart ELements
 ChartJS.register(
 	BarElement,
@@ -16,7 +16,6 @@ function CourseInfo({courseInfo, setMadgrades, madgrades}){
 	const [offering, setOffering] = useState(null);
 	//get course grade distribution information
 	const fetchGradeInfo = useCallback(async (url) => {
-		const apiToken = "d56a4edaa11347eab053783a9c5bc711";
 	  
 		try{			
 		  console.log("url", url);

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import CourseSearch from './SearchCourses';
 import './App.css';
-import "./checkbox.css";
 import SearchForm from "./SearchForm";
 import { db } from "./firebase";
 import { collection, query, where, getDocs, limit, orderBy} from "firebase/firestore";
