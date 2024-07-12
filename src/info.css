@@ -1,0 +1,31 @@
+.info{
+	width: 50vw;
+	min-width: 800px;
+	margin: 20px;
+}
+
+.graph-container{
+	display: flex;
+	margin: 20px;
+	height: 42vh;
+	overflow: scroll;
+	border: groove;
+}
+
+.course-offering{
+	overflow-y: scroll;
+	width: 20%;
+	min-width: 150px;
+	float: left;
+	border-right: groove;
+}
+
+.course-offering::-webkit-scrollbar{
+	display: none;
+}
+.graph{
+	align-items: center;
+	padding: 20px;
+	display: flex;
+	width: 80%;
+}

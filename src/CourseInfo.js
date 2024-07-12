@@ -2,6 +2,8 @@ import React, {useCallback, useEffect, useState} from "react";
 import { Chart as ChartJS, BarElement, Tooltip, Legend, CategoryScale, LinearScale} from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { apiToken } from "./token";
+import "./info.css";
+
 //register BarChart ELements
 ChartJS.register(
 	BarElement,
@@ -16,7 +18,7 @@ function CourseInfo({courseInfo, setMadgrades, madgrades}){
 	const [offering, setOffering] = useState(null);
 	//get course grade distribution information
 	const fetchGradeInfo = useCallback(async (url) => {
-	  
+		setOffering(null)
 		try{			
 		  console.log("url", url);
 		  setLoading(true);
@@ -93,10 +95,10 @@ function CourseInfo({courseInfo, setMadgrades, madgrades}){
 	}
 	let offering_total = 1;
 	let values2 = [];
-	if (offering != null){
+	if (offering != null && madgrades != null){
 		const offering_total = offering.cumulative.total;
 		const gradeData = Object.fromEntries(
-			Object.entries(madgrades.cumulative).filter(([key]) => !['total', 'crCount', 'iCount', 'nCount', 'nwCount', 'pCount', 'sCount', 'uCount', 'nrCount'].includes(key)));
+			Object.entries(offering.cumulative).filter(([key]) => !['total', 'crCount', 'iCount', 'nCount', 'nwCount', 'pCount', 'sCount', 'uCount', 'nrCount'].includes(key)));
 		const cleaned = Object.fromEntries(Object.entries(gradeData).map(([key, value]) => [key.slice(0, -5).toUpperCase(), value]));
 		const sorted = Object.fromEntries(Object.entries(cleaned).sort((a,b) => a[0].localeCompare(b[0])));
 
@@ -104,28 +106,36 @@ function CourseInfo({courseInfo, setMadgrades, madgrades}){
 		data.datasets.push({label:["Course Offering Data"], data: values2.map(value => 100 * (value/offering_total))});
 	}
 
-	if(madgrades == null){
+	if(madgrades == null || courseInfo == null){
 		return <></>
 	}
 	return(
-		<div>
+		<div className="info">
 			
 				
 				<div>
 					<h2>Grade Distribution: </h2>
-					{loading ? <>Loading...</> :
+					{loading ? <div className="">Loading...</div> :
 					<div className="graph-container">
-						<div class="graph" >
-							<Bar data={data}/>
-						</div>
 						<div className="course-offering">
 						{
-							madgrades.courseOfferings.map((courseOffer) => (
-										<div>
-											{courseOffer.termCode}
+							madgrades.courseOfferings.map((courseOffer) => (courseOffer.sections.map((section) => (
+										<div className="course-box " onClick={() => (setOffering(courseOffer))}>
+											<div>
+											{
+												(courseOffer.termCode - Math.floor((courseOffer.termCode/10))*10) == 2 ? "Fall " :
+												(courseOffer.termCode - Math.floor((courseOffer.termCode/10))*10) == 4 ? "Spring " : 
+												(courseOffer.termCode - Math.floor((courseOffer.termCode/10))*10) == 6 ? "Summer ":
+												Math.floor((courseOffer.termCode/10))*10} 
+												{1900+ Math.floor(courseOffer.termCode/10)}
+											</div>
+											{section.instructors.map((instructor) => <>{instructor.name}</>)}
 										</div>
-							))
+							))))
 						}	
+						</div>
+						<div className="graph">
+							<Bar data={data}/>
 						</div>
 					</div>
 

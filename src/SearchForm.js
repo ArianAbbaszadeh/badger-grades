@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { limit } from "firebase/firestore";
+import './form.css';
 
 function SearchForm({setFilters, setNum, setPageFilters, setMadgrades, setCourseInfo}) {
   const [subject, setSubject] = useState('All subjects');
@@ -235,11 +236,11 @@ function SearchForm({setFilters, setNum, setPageFilters, setMadgrades, setCourse
             setKeywords('');
             setBreadths(Object.fromEntries(Object.keys(breadths).map(k => [k, false])));
             setGeneralEducation(Object.fromEntries(Object.keys(general_ed).map(k => [k, false])));
-			setFilters({});
-			setPageFilters([limit(25)]);
-			setNum(1);
+			      setFilters({});
+			      setPageFilters([limit(25)]);
+			      setNum(1);
+            setCourseInfo(null);
           }}
-          className="btn btn-reset"
         >
           Reset
         </button>

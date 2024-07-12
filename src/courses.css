@@ -1,0 +1,26 @@
+.course{
+	overflow-y: scroll;
+	height: 90%;
+}
+
+.course::-webkit-scrollbar{
+	display: none;
+}
+
+.course-box{
+	padding: 1rem;
+	border-bottom: groove;
+	height: 50px;
+	text-overflow: clip;
+	overflow: hidden;
+}
+
+.course-top{
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 5px;
+}
+
+.course-description{
+	font-size: 1.0rem;
+}

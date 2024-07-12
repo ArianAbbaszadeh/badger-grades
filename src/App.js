@@ -8,7 +8,6 @@ import Pagination from "./Pagination";
 import CourseInfo from "./CourseInfo";
 
 
-
 function App() {
   const [courses, setCourses] = useState([]);
   var PAGE_SIZE = 25;
@@ -18,13 +17,11 @@ function App() {
   const [tail, setTail] = useState(null);
   const [num, setNum] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [courseInfo, setCourseInfo] = useState(null);
   const [madgrades, setMadgrades] = useState(null);
 
   const fetchCourses = useCallback(async () => {
     setIsLoading(true);
-    setError(null);
     
     try {
       console.log("Fetching courses with filters:", filters);
@@ -68,7 +65,6 @@ function App() {
       setCourses(courseData);
     } catch (err) {
       console.error("Error fetching courses:", err);
-      setError("Failed to fetch courses. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -79,36 +75,53 @@ function App() {
   }, [fetchCourses]);
 
   return (
-    
-    <div className="App">
-      <div className="course-search">
-        <div className="header">
-        </div>
-        <div className="course-menu">
-          <div className="course-search-box">
-            <SearchForm setFilters={setFilters} setNum={setNum} setPageFilters={setPageFilters} setMadgrades={setMadgrades} setCourseInfo={setCourseInfo}/>
+
+    <div className="course-search">
+      <div className="course-select">
+        <SearchForm 
+          setFilters={setFilters} 
+          setNum={setNum} 
+          setPageFilters={setPageFilters} 
+          setMadgrades={setMadgrades} 
+          setCourseInfo={setCourseInfo}
+        />
+        {isLoading ? (
+          <div className="courses-scroll">              
+            <Pagination 
+              disabled={courses.length < PAGE_SIZE} 
+              head={head} 
+              tail={tail} 
+              num={num} 
+              setNum={setNum} 
+              setPageFilters={setPageFilters}
+            />
           </div>
-          <div >
-            {isLoading ? (
-              <div className="course-selector">
-                <div className="course-scroll">Loading courses...</div>                
-                <Pagination disabled={courses.length < PAGE_SIZE} head={head} tail={tail} num={num} setNum={setNum} setPageFilters={setPageFilters}/>
-              </div>
-              
-            ) : error ? (
-              <div>{error}</div>
-            ) : (
-              <div className="course-selector">
-                <CourseSearch courses={courses} courseInfo={courseInfo} setCourseInfo={setCourseInfo} />
-                <Pagination disabled={courses.length < PAGE_SIZE} head={head} tail={tail} num={num} setNum={setNum} setPageFilters={setPageFilters}/>
-              </div>
-            )}
-           
+        ) : (
+          <div className="courses-scroll">
+            <CourseSearch 
+              courses={courses} 
+              courseInfo={courseInfo} 
+              setCourseInfo={setCourseInfo} 
+            />
+
+            <Pagination 
+              disabled={courses.length < PAGE_SIZE} 
+              head={head} 
+              tail={tail} 
+              num={num} 
+              setNum={setNum} 
+              setPageFilters={setPageFilters} 
+              setCourseInfo={setCourseInfo}
+            />
           </div>
-          <div className="course-info">
-            <CourseInfo courseInfo={courseInfo} setMadgrades={setMadgrades} madgrades={madgrades}/>
-          </div>
-        </div>
+        )}  
+      </div>
+      <div className="course-info">
+        <CourseInfo 
+          courseInfo={courseInfo} 
+          setMadgrades={setMadgrades} 
+          madgrades={madgrades}
+        />
       </div>
     </div>
   );

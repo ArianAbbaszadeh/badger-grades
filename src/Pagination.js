@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { db } from "./firebase";
-import { collection, endBefore, limit, limitToLast, startAfter, doc } from "firebase/firestore";
-import './App.css'
+import React from 'react';
+import { endBefore, limit, limitToLast, startAfter } from "firebase/firestore";
+import './page.css'
+import { Button } from 'react-bootstrap';
 
-function Pagination({disabled, head, tail, num, setNum, setPageFilters}){
+function Pagination({disabled, head, tail, num, setNum, setPageFilters, setCourseInfo}){
 	const next_page = () => {
 		const constraints = [];
 		constraints.push(startAfter(tail));
-		constraints.push(limit(25))
+		constraints.push(limit(25));
 		setPageFilters(constraints);
 		setNum(num+1)
+		setCourseInfo(null)
 	}
 
 	const prev_page = () => {
@@ -18,25 +19,23 @@ function Pagination({disabled, head, tail, num, setNum, setPageFilters}){
 		constraints.push(limitToLast(25))
 		setPageFilters(constraints);
 		setNum(num-1)
+		setCourseInfo(null);
 	}
 	return (
-		<div className="page-selector">
-        <button 	
-          className="page-button page-left" 
-          onClick={prev_page}
-          disabled={num === 1}
-        >
-          {'<'}
-        </button>
-        {num}
-        <button 
-          className="page-button page-right"
-          onClick={next_page}
-		  disabled={disabled}
-        >
-          {'>'}
-        </button>
-      </div>
+		<div className='page-box'>
+			<div className="page-selector">
+				<Button 
+					onClick={prev_page} 
+					disabled={num <= 1}
+				>{"<"}</Button>
+				{num}
+				<Button 
+					onClick={next_page} 
+					disabled={disabled}
+					variant='primary'
+				>{">"}</Button>
+			</div>
+	  	</div>
 	);
 }
 export default Pagination;
