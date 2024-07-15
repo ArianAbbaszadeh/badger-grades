@@ -18,21 +18,21 @@ function Pagination({disabled, head, tail, num, setNum, setPageFilters, setCours
 		constraints.push(endBefore(head));
 		constraints.push(limitToLast(25))
 		setPageFilters(constraints);
-		setNum(num-1)
+		setNum(num-1);
 		setCourseInfo(null);
 	}
 	return (
 		<div className='page-box'>
 			<div className="page-selector">
 				<Button 
+					className='page-button'
 					onClick={prev_page} 
 					disabled={num <= 1}
 				>{"<"}</Button>
 				{num}
-				<Button 
+				<Button className='page-button'
 					onClick={next_page} 
 					disabled={disabled}
-					variant='primary'
 				>{">"}</Button>
 			</div>
 	  	</div>

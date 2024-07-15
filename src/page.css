@@ -1,7 +1,14 @@
 
 
 .page-selector{
-	padding: 2.2rem;
+	padding: 1.7rem;
 	display: flex;
 	justify-content: space-around;
+}
+
+.page-button{
+	border: none;
+	font-size: 30px;
+	background-color: inherit;
+	color: inherit;
 }

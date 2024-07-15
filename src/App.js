@@ -32,6 +32,9 @@ function App() {
           if (field == "ethnic_studies") {
             constraints.push(where(field, '==', val));
             console.log("ethnic studies:" + val);
+          } else if (field == "subject_abbrv"){
+            constraints.push(where(field, 'array-contains', val))
+            console.log("abbrv", val);
           } else if((Array.isArray(val) && val.length > 0)){
               if(field == "general_ed" || field == "level") {
               constraints.push(where(field, 'in', val));
@@ -41,7 +44,6 @@ function App() {
           }
         }
       }
-
       const q = query(
         courseRef,
         ...constraints,

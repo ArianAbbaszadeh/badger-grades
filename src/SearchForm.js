@@ -32,21 +32,10 @@ function SearchForm({setFilters, setNum, setPageFilters, setMadgrades, setCourse
 
 
   const dropdownRef = useRef(null);
-
+  
   // Sample list of subjects - replace with your actual list
-  const subjects = [
-    'All subjects',
-    'Computer Science',
-    'Mathematics',
-    'Physics',
-    'Chemistry',
-    'Biology',
-    'History',
-    'Literature',
-    'Philosophy',
-    'Psychology'
-  ];
-
+  const response = require('./subjects.json')
+  const subjects = Object.values(response).map(item => item.abbreviation).sort();
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -120,12 +109,13 @@ function SearchForm({setFilters, setNum, setPageFilters, setMadgrades, setCourse
       "general_ed": Object.entries(general_ed)
         .filter(([_, value]) => value)
         .map(([key, _]) => genEdMap[key]),
-	  "level": Object.entries(levels)
-	  	.filter(([_, value]) => value)
-	 	.map(([key, _]) => levelsMap[key]),
-	  "ethnic_studies": ethnic_studies.ethnicStudies ? true : null
+	    "level": Object.entries(levels)
+	  	  .filter(([_, value]) => value)
+	 	    .map(([key, _]) => levelsMap[key]),
+      "subject_abbrv": subject,
+	    "ethnic_studies": ethnic_studies.ethnicStudies ? true : null
     };
-	console.log(filters);
+	console.log("filters", filters);
     // Call the courseSearch function with the formatted filters
 	setFilters(filters);
 	setPageFilters([limit(25)]);
