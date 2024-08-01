@@ -1,7 +1,4 @@
-.course{
-	overflow-y: scroll;
-	height: 90%;
-}
+
 
 .course::-webkit-scrollbar{
 	display: none;

@@ -1,3 +1,4 @@
+
 :root{
   --uw_blue: rgb(4, 121,168);
   --uw_dark_gray: rgb(51, 51, 51);
@@ -41,5 +42,5 @@
 }
 
 .course-info{
-  flex: 3;
+  flex: 2;
 }
