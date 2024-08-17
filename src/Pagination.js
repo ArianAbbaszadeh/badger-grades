@@ -36,26 +36,26 @@ function Pagination({
         setCourseInfo(null);
     };
     return (
-        <div className="h-[9vh] min-h-20 flex flex-col justify-around bg-white shadow-inner shadow-gray-100 bg-clip-border">
-            <div className="flex flex-row w-[100%] justify-around align-middle ">
+        <div className="min-h-10 h-[8%] flex flex-col justify-around bg-slate-200 shadow-inner  bg-clip-border">
+            <div className="flex flex-row w-[100%] justify-around m-[1.5vh] ml-0 mr-0">
                 <Button
-                    className="bg-clip-content hover:bg-gray-200 duration-200 rounded-full p-3"
+                    className="bg-clip-content hover:bg-gray-200 duration-200 rounded-full"
                     onClick={prev_page}
                     disabled={num==1}
                 >
                     <IonIcon
-                        className="size-[40px]"
+                        className="size-[4vh]"
                         icon={chevronBackCircleOutline}
                     />
                 </Button>
-                <div className="text-2xl p-4">{num}</div>
+                <div className="text-[3vh]">{num}</div>
                 <Button
-                    className="group duration-200 rounded-full p-3 "
+                    className="group duration-200 rounded-full"
                     onClick={next_page}
                     disabled={disabled}
                 >
                     <IonIcon
-                        className="size-[40px] fill-zinc-700 group-hover:hover:fill-blue-400"
+                        className="size-[4vh] fill-zinc-700 group-hover:hover:fill-blue-400"
                         icon={chevronForwardCircleOutline}
                     />
                 </Button>

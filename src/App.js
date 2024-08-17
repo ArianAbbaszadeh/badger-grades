@@ -14,8 +14,13 @@ import {
 import Pagination from "./Pagination";
 import CourseInfo from "./CourseInfo";
 import "./index.css";
+import { IonIcon } from "@ionic/react";
+import { arrowBackOutline } from "ionicons/icons";
+import Sorter from "./Sorter";
 
 function App() {
+    console.log("App component rendering");
+    const [info, setInfo] = useState({});
     const [courses, setCourses] = useState([]);
     var PAGE_SIZE = 25;
     const [filters, setFilters] = useState({});
@@ -24,163 +29,254 @@ function App() {
     const [tail, setTail] = useState(null);
     const [num, setNum] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
+    const [sort, setSort] = useState("course_num");
     const [courseInfo, setCourseInfo] = useState(null);
     const [madgrades, setMadgrades] = useState(null);
     const [selected, setSelected] = useState(0);
-    const [desktop, setDesktop] = useState(false);
-    const fetchCourses = useCallback(async () => {
-        setIsLoading(true);
+    const [desktop, setDesktop] = useState(window.innerWidth / window.innerHeight > 1);
 
+    const fetchCourses = useCallback(async () => {
+        console.log("fetchCourses called with filters:", filters);
+        setIsLoading(true);
+        if(selected == 2)setSelected(1);
         try {
-            console.log("Fetching courses with filters:", filters);
             const courseRef = collection(db, "courses");
             const constraints = [];
             for (const [field, val] of Object.entries(filters)) {
                 if (val != null) {
-                    if (field == "ethnic_studies" || field == "breadths" || field == "level") {
+                    if (field === "ethnic_studies" || field === "breadths" || field === "level" || field === 'subject_abbr' || field === "currently_taught" || field === "title") {
                         constraints.push(where(field, "==", val));
-                        console.log("ethnic studies:" + val);
+                        console.log(`Adding constraint: ${field} == ${val}`);
                     } else if (Array.isArray(val) && val.length > 0) {
-                        if(field == 'keywords'){
+                        if(field === 'keywords'){
                             constraints.push(where(field, 'array-contains-any', val));
+                            console.log(`Adding constraint: ${field} array-contains-any ${val}`);
                         }else{
                             constraints.push(where(field, "in", val));
+                            console.log(`Adding constraint: ${field} in ${val}`);
                         }
                     }
                 }
             }
+
+            const sort_call = []
+            sort == "gpa" ? sort_call.push(orderBy(sort, "desc")) : sort_call.push(orderBy(sort))
             const q = query(
                 courseRef,
                 ...constraints,
-                orderBy("gpa", "desc"),
+                ...sort_call,
                 ...pageFilters
             );
 
+            console.log("Executing Firestore query");
             const querySnapshot = await getDocs(q);
+            console.log(`Query returned ${querySnapshot.docs.length} results`);
+
             setHead(querySnapshot.docs[0]);
             setTail(querySnapshot.docs[querySnapshot.docs.length - 1]);
-            console.log("head", head);
-            console.log("tail", tail);
-            const courseData = [];
-            querySnapshot.forEach((doc) => {
-                const name =
-                    doc.data().subject_abbr + " " + doc.data().course_num;
-                courseData.push({ id: doc.id, name, ...doc.data() });
-            });
-            console.log("Fetched courses:", courseData);
-
-            setCourses(courseData);
             
+            const courseData = querySnapshot.docs.map(doc => {
+                const data = doc.data();
+                return { id: doc.id, name: `${data.subject_abbr} ${data.course_num}`, ...data };
+            });
+            
+            console.log(`Setting courses with ${courseData.length} items`);
+            document.startViewTransition(() => {
+                setCourses(courseData);
+            });
         } catch (err) {
             console.error("Error fetching courses:", err);
         } finally {
             setIsLoading(false);
             const scroller = document.getElementById("scroller");
-            if (scroller){
-            scroller.scrollTop = 0;}
+            if (scroller) {
+                console.log("Scrolling to top");
+                scroller.scrollTop = 0;
+            }
         }
-    }, [filters, pageFilters]);
+    }, [filters, pageFilters, sort]);
 
     useEffect(() => {
+        console.log("Initial useEffect running");
         fetchCourses();
 
-        function handleResize() {
-            const aspectRatio = window.innerWidth / window.innerHeight;
-            setDesktop(aspectRatio > 1);
-        }
-        handleResize();
+        const handleResize = () => {
+            const newDesktop = window.innerWidth / window.innerHeight > 1;
+            if (newDesktop !== desktop) {
+                console.log(`Window resized, setting desktop to ${newDesktop}`);
+                setDesktop(newDesktop);
+            }
+        };
+
         window.addEventListener("resize", handleResize);
+        return () => {
+            console.log("Cleaning up resize event listener");
+            window.removeEventListener("resize", handleResize);
+        }
+    }, [fetchCourses, desktop]);
 
-        return () => window.removeEventListener("resize", handleResize);
-    }, [fetchCourses]);
-
-    return (
-        <div className="w-full font-[Poppins] h-screen bg-slate-50">
-            <Header />
-            {desktop ? (
-                <div className="flex flex-row">
-                    <div className="flex flex-row flex-1 mt-4 h-full">
-                        <SearchForm
-                            setFilters={setFilters}
+    const renderMobileView = () => {
+        console.log(`Rendering mobile view with selected: ${selected}`);
+        switch(selected) {
+            case 0:
+                return (
+                    <SearchForm
+                        setFilters={setFilters}
+                        setNum={setNum}
+                        setPageFilters={setPageFilters}
+                        setCourseInfo={setCourseInfo}
+                        setMadgrades={setMadgrades}
+                        setSelected={setSelected}
+                    />
+                );
+            case 1:
+                return (
+                    <div className="h-[92vh] shadow-2xl min-w-[324px] flex-col flex bg-slate-200">
+                        <div className="h-[8%] min-h-8 text-center place-items-center bg-transparent">
+                            <div className="flex flex-row justify-between p-[2vh]">
+                                <IonIcon
+                                    className="size-10"
+                                    icon={arrowBackOutline}
+                                    onClick={() => {
+                                        console.log("Back button clicked, setting selected to 0");
+                                        document.startViewTransition(() => {
+                                            setSelected(0);
+                                            
+                                        });
+                                    }}
+                                />
+                                <div className="flex justify-between sm:w-[60%] w-[100%] pl-2">
+                                    <div className="text-[26px] font-semibold">
+                                        Courses
+                                    </div>
+                                    <Sorter setSort={setSort} sort={sort}/>
+                                </div>
+                            </div>
+                        </div>
+                        <CourseSearch
+                            courses={courses}
+                            courseInfo={courseInfo}
+                            setCourseInfo={setCourseInfo}
+                            setSelected={setSelected}
+                            setInfo={setInfo}
+                        />
+                        <Pagination
+                            disabled={courses.length < PAGE_SIZE}
+                            head={head}
+                            tail={tail}
+                            num={num}
                             setNum={setNum}
                             setPageFilters={setPageFilters}
                             setCourseInfo={setCourseInfo}
-                            setMadgrades={setMadgrades}
-                            setSelected={setSelected}
                         />
-                        <Suspense
-                            fallback={<div className="bg-cyan-950">Loading...</div>}
-                        >
-                            <div className="shadow-2xl shadow-slate-400 w-[100%] h-[88vh] rounded-3xl">
-                                <div className="h-[91vh] overflow-y-scroll scrollbar-hide rounded-t-3xl shadow-inner shadow-fuchsia-300 min-w-[400px]">
-                                    <CourseSearch
-                                        courses={courses}
-                                        courseInfo={courseInfo}
-                                        setCourseInfo={setCourseInfo}
-                                        setSelected={setSelected}
-                                    />
-                                    <Pagination
-                                        className
-                                        disabled={courses.length < PAGE_SIZE}
-                                        head={head}
-                                        tail={tail}
-                                        num={num}
-                                        setNum={setNum}
-                                        setPageFilters={setPageFilters}
-                                        setCourseInfo={setCourseInfo}
-                                    />
-                                </div>
-                            </div>
-                        </Suspense>
                     </div>
-                    <div className="flex-1 p-4">
+                );
+            case 2:
+                return (
+                    <div className="h-[92vh] overflow-y-scroll">
+                        <div className="rounded-full bg-slate-200 hover:bg-slate-300 duration-100 inline-block size-10 m-2" >
+                            <IonIcon
+                                className="size-10"
+                                icon={arrowBackOutline}
+                                onClick={() => {
+                                    console.log("Back button clicked, setting selected to 1");
+                                    document.startViewTransition(() => {
+                                        setCourseInfo(null);
+                                        setSelected(1);
+                                    });
+                                }}
+                            />
+                        </div>
                         <CourseInfo
                             courseInfo={courseInfo}
                             setMadgrades={setMadgrades}
                             madgrades={madgrades}
+                            info={info}
+                            setInfo={setInfo}
                         />
                     </div>
-                </div>
-            ) : (
-                <div className="w-full">
-                    {selected === 0 && (
-                        <SearchForm
-                            setFilters={setFilters}
-                            setNum={setNum}
-                            setPageFilters={setPageFilters}
-                            setCourseInfo={setCourseInfo}
-                            setMadgrades={setMadgrades}
-                            setSelected={setSelected}
-                        />
-                    )}
-                    {selected === 1 && (
-                        <div className="h-[91vh] p-2 overflow-y-scroll scrollbar-hide rounded-t-3xl shadow-inner shadow-fuchsia-300 min-w-[400px]">
-                            <CourseSearch
-                                courses={courses}
-                                courseInfo={courseInfo}
-                                setCourseInfo={setCourseInfo}
-                                setSelected={setSelected}
-                            />
-                            <Pagination
-                                disabled={courses.length < PAGE_SIZE}
-                                head={head}
-                                tail={tail}
-                                num={num}
+                );
+            default:
+                console.log(`Unexpected selected value: ${selected}`);
+                return null;
+        }
+    };
+
+    console.log(`Rendering App component, desktop: ${desktop}`);
+    return (
+        <div className="font-[Poppins] text-slate-800 bg-slate-50 box min-w-[100vw] min-h-[100vh] cursor-default">
+            <Header />
+            {desktop ? (
+                <div className="flex flex-row">
+                    <div className="flex flex-row flex-1 h-[92vh] w-[40%]">
+                        <div className="flex flex-col justify-start min-w-[324px] w-[50%] mr-2">
+                            <SearchForm
+                                setFilters={setFilters}
                                 setNum={setNum}
                                 setPageFilters={setPageFilters}
                                 setCourseInfo={setCourseInfo}
-                            />
-                        </div>
-                    )}
-                    {selected === 2 && (
-                        <div >
-                            <CourseInfo
-                                courseInfo={courseInfo}
                                 setMadgrades={setMadgrades}
-                                madgrades={madgrades}
+                                setSelected={setSelected}
+                                setSort={setSort}
                             />
                         </div>
-                    )}
+                        <Suspense fallback={<div className="bg-cyan-950">Loading...</div>}>
+                            <div className="rounded-t-3xl shadow-slate-500 shadow-2xl min-w-[324px] w-[60%] max-w-[600px] flex-col flex bg-slate-200 mt-3">
+                                <div className="h-[8%] min-h-8 text-center bg-transparent before">
+                                    <div className="flex flex-row justify-between h-[100%] m-4 bg-transparent">
+                                        <div className="text-3xl font-semibold">Courses</div>
+                                        <Sorter setSort={setSort} sort={sort}/>
+                                    </div>
+                                </div>
+                                <CourseSearch
+                                    courses={courses}
+                                    courseInfo={courseInfo}
+                                    setCourseInfo={setCourseInfo}
+                                    setSelected={setSelected}
+                                    setInfo={setInfo}
+                                />
+                                <Pagination
+                                    disabled={courses.length < PAGE_SIZE}
+                                    head={head}
+                                    tail={tail}
+                                    num={num}
+                                    setNum={setNum}
+                                    setPageFilters={setPageFilters}
+                                    setCourseInfo={setCourseInfo}
+                                />
+                            </div>
+                        </Suspense>
+                    </div>
+                    <div className="h-[92vh] flex-1 p-4 w-[50%] overflow-y-scroll scrollbar-hide">
+                        {selected === 2 ? (
+                            <div>
+                                <div className="rounded-full bg-slate-200 hover:bg-slate-300 duration-100 inline-block size-10" >
+                                    <IonIcon
+                                        className="size-10"
+                                        icon={arrowBackOutline}
+                                        onClick={() => {
+                                            console.log("Back button clicked, setting selected to 1");
+                                            document.startViewTransition(() => {
+                                                setCourseInfo(null);
+                                                setSelected(1);
+                                            });
+                                        }}
+                                    />
+                                </div>
+                                <CourseInfo
+                                    courseInfo={courseInfo}
+                                    setMadgrades={setMadgrades}
+                                    madgrades={madgrades}
+                                    info={info}
+                                    setInfo={setInfo}
+                                />                       
+                            </div>
+                        ) : (<></>)}
+                    </div>                 
+                </div>
+            ) : (
+                <div className="w-full">
+                    {renderMobileView()}
                 </div>
             )}
         </div>
