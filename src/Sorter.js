@@ -11,7 +11,7 @@ function Sorter({ setSort, sort }) {
     return (
         <div className="mt-1">
             <div
-                className="flex flex-col bg-clip-border bg-slate-200 rounded-2xl"
+                className="flex flex-col bg-clip-border bg-slate-200 rounded-2xl cursor-pointer"
                 onClick={() => {
 					document.startViewTransition(() => {
 						setHide(!hide);
@@ -25,7 +25,7 @@ function Sorter({ setSort, sort }) {
                 <div className="flex flex-col sticky  z-10 bg-slate-200 rounded-b-xl">
                     {!hide &&
                         options.map((temp) => (
-                            <div className="p-1 m-1 hover:bg-slate-300 duration-100 rounded-full"
+                            <div className="p-1 m-1 hover:bg-slate-300 duration-100 rounded-full cursor-pointer"
 							onClick={() => {
 								document.startViewTransition(() => {
 									setHide(true);

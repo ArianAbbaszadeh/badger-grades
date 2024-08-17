@@ -22,7 +22,7 @@ function CourseSearch({ courses, courseInfo, setCourseInfo, setSelected, setInfo
                         courseInfo === course
                             ? "bg-gradient-to-bl from-fuchsia-200 via-blue-300 to-indigo-300 shadow-2xl shadow-violet-400 text-wrap"
                             : "text-nowrap"
-                    } duration-200 shadow-lg hover:bg-indigo-200 overflow-hidden hover:text-wrap`}
+                    } duration-200 cursor-pointer shadow-lg hover:bg-indigo-200 overflow-hidden hover:text-wrap`}
                     onClick={() => {
                             console.log("Course clicked:", course.name);
                             document.startViewTransition(() => {

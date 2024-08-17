@@ -171,7 +171,7 @@ function SearchForm({
         >
             <div className="flex flex-row justify-around font-semibold p-3 m-3">
                 <button
-                    className="w-24 h-12 bg-slate-700 hover:bg-slate-800 active:bg-slate-900 active:scale-95 transition-colors ease-in rounded-full text-white shadow-xl"
+                    className="w-24 h-12 cursor-pointer bg-slate-700 hover:bg-slate-800 active:bg-slate-900 active:scale-95 transition-colors ease-in rounded-full text-white shadow-xl"
                     type="button"
                     onClick={() => {
                         document.startViewTransition(() => {
@@ -229,10 +229,10 @@ function SearchForm({
                         }}
                         onClick={() => { document.startViewTransition(() => {setShowDropdown(true); setShowCourseDropdown(false);})}}
                         placeholder="Filter by subject"
-                        className={`${showDropdown ? "w-[85%]" : "w-[100%]"} text-xl  placeholder:text-slate-400 shadow-lg rounded-2xl bg-slate-200 text-slate-800"  p-2`}
+                        className={`${showDropdown ? "w-[85%]" : "w-[100%]"} text-xl cursor-pointer placeholder:text-slate-400 shadow-lg rounded-2xl bg-slate-200 text-slate-800"  p-2`}
                     />
                     {showDropdown && (
-                        <div className="hover:bg-slate-400 rounded-full ml-1 bg-clip-content duration-100 "
+                        <div className="hover:bg-slate-400 rounded-full cursor-pointer ml-1 bg-clip-content duration-100 "
                             onClick={() => { document.startViewTransition(() => {setShowDropdown(false); setSubject(""); setSubjectSearch("");})}}>
                             <IonIcon className="text-3xl text-slate-800 p-[6px] pb-0" icon={closeOutline}/>
                         </div>
@@ -243,7 +243,7 @@ function SearchForm({
                         {filteredSubjects.map((s, index) => (
                             <div
                                 key={index}
-                                className="p-2 my-3 mx-2 border-b-black rounded-xl duration-150 bg-slate-200 hover:bg-slate-50 shadow-lg active:bg-white shadow-slate-400"
+                                className="p-2 cursor-pointer my-3 mx-2 border-b-black rounded-xl duration-150 bg-slate-200 hover:bg-slate-50 shadow-lg active:bg-white shadow-slate-400"
                                 onClick={() => setTimeout(handleSubjectChange(s), 500)}
                             >
                                 <div className="text-slate-700 leading-tight text-lg font-medium ">
@@ -296,10 +296,10 @@ function SearchForm({
                         }}
                         onClick={() => { document.startViewTransition(() => {setShowCourseDropdown(true); setShowDropdown(false);})}}
                         placeholder="Search courses"
-                        className={`${showCourseDropdown ? "w-[85%]" : "w-[100%]"} text-xl  placeholder:text-slate-400 shadow-lg rounded-2xl bg-slate-200 text-slate-800"  p-2`}
+                        className={`${showCourseDropdown ? "w-[85%]" : "w-[100%]"} text-xl cursor-pointer placeholder:text-slate-400 shadow-lg rounded-2xl bg-slate-200 text-slate-800"  p-2`}
                     />
                     {showCourseDropdown && (
-                        <div className="hover:bg-slate-400 rounded-full ml-1 bg-clip-content duration-100 "
+                        <div className="hover:bg-slate-400 cursor-pointer rounded-full ml-1 bg-clip-content duration-100 "
                             onClick={() => { document.startViewTransition(() => {setShowCourseDropdown(false); setCourse(""); setCourseSearch("");})}}>
                             <IonIcon className="text-3xl text-slate-800 p-[6px] pb-0" icon={closeOutline}/>
                         </div>
@@ -310,7 +310,7 @@ function SearchForm({
                         {filteredCourses.filter((item, idx) => idx < 100).map((c, index) => (
                             <div
                                 key={index}
-                                className="p-2 my-3 mx-2 border-b-black rounded-xl duration-150 bg-slate-200 hover:bg-slate-50 shadow-lg active:bg-white shadow-slate-400"
+                                className="p-2 my-3 mx-2 cursor-pointer border-b-black rounded-xl duration-150 bg-slate-200 hover:bg-slate-50 shadow-lg active:bg-white shadow-slate-400"
                                 onClick={() => setTimeout(handleCourseChange(c), 500)}
                             >
                                 <div className="text-slate-700 leading-tight text-lg font-medium ">
@@ -328,7 +328,7 @@ function SearchForm({
             </div>
             
 
-            <div className={`m-3 p-2 shadow-lg rounded-3xl flex justify-start duration-100 items-center gap-2 ${current ? "bg-green-600 text-slate-50 hover:bg-green-700" : "bg-slate-300 hover:bg-slate-400"}`}
+            <div className={`m-3 p-2 cursor-pointer shadow-lg rounded-3xl flex justify-start duration-100 items-center gap-2 ${current ? "bg-green-600 text-slate-50 hover:bg-green-700" : "bg-slate-300 hover:bg-slate-400"}`}
                 onClick={() => {document.startViewTransition(() => {setCurrent(!current)})}}>
                 <IonIcon className="text-3xl" icon={checkmarkCircleOutline}/>
                  <div className="text-lg">
@@ -345,7 +345,7 @@ function SearchForm({
                             <label
                                 key={key}
                                 onClick={() => handleBreadthChange(key)}
-                                className={`m-1 p-1 pl-3 pr-3 transition-all duration-150 active:scale-95 ${
+                                className={`m-1 cursor-pointer p-1 pl-3 pr-3 transition-all duration-150 active:scale-95 ${
                                     breadths[key]
                                         ? "hover:bg-green-800 bg-green-900"
                                         : "hover:bg-green-700 bg-green-600"
@@ -376,7 +376,7 @@ function SearchForm({
                                 onClick={() =>
                                     handleGeneralEducationChange(key)
                                 }
-                                className={`m-1 p-1 pl-3 pr-3 transition-all duration-150 active:scale-95 ${
+                                className={`m-1 p-1 pl-3 pr-3 cursor-pointer transition-all duration-150 active:scale-95 ${
                                     general_ed[key]
                                         ? "hover:bg-emerald-800 bg-emerald-900"
                                         : "hover:bg-emerald-700 bg-emerald-600"
@@ -407,7 +407,7 @@ function SearchForm({
                                 onClick={() =>
                                     handleLevelsChange(key)
                                 }
-                                className={`m-1 p-1 pl-3 pr-3 transition-colors duration-150 active:scale-95 ${
+                                className={`m-1 p-1 pl-3 cursor-pointer pr-3 transition-colors duration-150 active:scale-95 ${
                                     levels[key]
                                         ? "hover:bg-teal-800 bg-teal-900"
                                         : "hover:bg-teal-700 bg-teal-600"

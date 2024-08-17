@@ -135,7 +135,7 @@ function App() {
                         <div className="h-[8%] min-h-8 text-center place-items-center bg-transparent">
                             <div className="flex flex-row justify-between p-[2vh]">
                                 <IonIcon
-                                    className="size-10"
+                                    className="size-10 cursor-pointer"
                                     icon={arrowBackOutline}
                                     onClick={() => {
                                         console.log("Back button clicked, setting selected to 0");
@@ -176,7 +176,7 @@ function App() {
                     <div className="h-[92vh] overflow-y-scroll">
                         <div className="rounded-full bg-slate-200 hover:bg-slate-300 duration-100 inline-block size-10 m-2" >
                             <IonIcon
-                                className="size-10"
+                                className="size-10 cursor-pointer"
                                 icon={arrowBackOutline}
                                 onClick={() => {
                                     console.log("Back button clicked, setting selected to 1");
@@ -221,7 +221,7 @@ function App() {
                             />
                         </div>
                         <Suspense fallback={<div className="bg-cyan-950">Loading...</div>}>
-                            <div className="rounded-t-3xl shadow-slate-500 shadow-2xl min-w-[324px] w-[60%] max-w-[600px] flex-col flex bg-slate-200 mt-3">
+                            <div className="rounded-t-3xl shadow-slate-500 shadow-2xl min-w-[324px] w-[60%] flex-col flex bg-slate-200 mt-3">
                                 <div className="h-[8%] min-h-8 text-center bg-transparent before">
                                     <div className="flex flex-row justify-between h-[100%] m-4 bg-transparent">
                                         <div className="text-3xl font-semibold">Courses</div>
@@ -252,7 +252,7 @@ function App() {
                             <div>
                                 <div className="rounded-full bg-slate-200 hover:bg-slate-300 duration-100 inline-block size-10" >
                                     <IonIcon
-                                        className="size-10"
+                                        className="size-10 cursor-pointer"
                                         icon={arrowBackOutline}
                                         onClick={() => {
                                             console.log("Back button clicked, setting selected to 1");

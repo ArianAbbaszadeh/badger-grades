@@ -405,7 +405,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo}) {
                                         offering.term === term
                                             ? "hover:bg-rose-600 bg-rose-500 min-w-70"
                                             : "hover:bg-slate-500 bg-slate-400"
-                                    } text-white rounded-full shadow-md text-nowrap flex flex-row min-h-12 `}
+                                    } text-white rounded-full shadow-md text-nowrap flex flex-row min-h-12 cursor-pointer`}
                                     onClick={() => {
                                         document.startViewTransition(() => {
                                             if (
@@ -443,7 +443,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo}) {
                                                             inst_name
                                                             ? "bg-sky-500 hover:bg-sky-600 text-white"
                                                             : "bg-slate-400 hover:bg-slate-500 "
-                                                    }duration-75 p-2 pt-[10px] m-1 font-semibold rounded-full text-md active:scale-95`}
+                                                    }duration-75 p-2 pt-[10px] m-1 font-semibold rounded-full text-md active:scale-95 cursor-pointer`}
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         if (

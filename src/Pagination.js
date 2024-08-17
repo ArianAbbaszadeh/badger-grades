@@ -37,25 +37,25 @@ function Pagination({
     };
     return (
         <div className="min-h-10 h-[8%] flex flex-col justify-around bg-slate-200 shadow-inner  bg-clip-border">
-            <div className="flex flex-row w-[100%] justify-around m-[1.5vh] ml-0 mr-0">
+            <div className="flex w-[100%] justify-around items-center">
                 <Button
-                    className="bg-clip-content hover:bg-gray-200 duration-200 rounded-full"
+                    className="hover:bg-gray-300 duration-200 rounded-full cursor-pointer"
                     onClick={prev_page}
                     disabled={num==1}
                 >
                     <IonIcon
-                        className="size-[4vh]"
+                        className={`text-[4vh] ${num==1 ? "text-slate-500" : ""}`}
                         icon={chevronBackCircleOutline}
                     />
                 </Button>
                 <div className="text-[3vh]">{num}</div>
                 <Button
-                    className="group duration-200 rounded-full"
+                    className="group duration-200 hover:bg-gray-300 rounded-full cursor-pointer"
                     onClick={next_page}
                     disabled={disabled}
                 >
                     <IonIcon
-                        className="size-[4vh] fill-zinc-700 group-hover:hover:fill-blue-400"
+                        className={`text-[4vh] ${disabled? "text-slate-500" : ""}`}
                         icon={chevronForwardCircleOutline}
                     />
                 </Button>
