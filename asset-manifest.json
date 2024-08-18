@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/cuck-the-curve/static/css/main.e355a821.css",
-    "main.js": "/cuck-the-curve/static/js/main.9d909ea9.js",
+    "main.css": "/cuck-the-curve/static/css/main.f42c06ca.css",
+    "main.js": "/cuck-the-curve/static/js/main.9567bb1d.js",
     "static/js/738.8bf93037.chunk.js": "/cuck-the-curve/static/js/738.8bf93037.chunk.js",
     "static/js/653.208880d6.chunk.js": "/cuck-the-curve/static/js/653.208880d6.chunk.js",
     "static/js/923.001830cc.chunk.js": "/cuck-the-curve/static/js/923.001830cc.chunk.js",
     "static/js/627.dce16540.chunk.js": "/cuck-the-curve/static/js/627.dce16540.chunk.js",
     "static/js/453.8753311b.chunk.js": "/cuck-the-curve/static/js/453.8753311b.chunk.js",
     "index.html": "/cuck-the-curve/index.html",
-    "main.e355a821.css.map": "/cuck-the-curve/static/css/main.e355a821.css.map",
-    "main.9d909ea9.js.map": "/cuck-the-curve/static/js/main.9d909ea9.js.map",
+    "main.f42c06ca.css.map": "/cuck-the-curve/static/css/main.f42c06ca.css.map",
+    "main.9567bb1d.js.map": "/cuck-the-curve/static/js/main.9567bb1d.js.map",
     "738.8bf93037.chunk.js.map": "/cuck-the-curve/static/js/738.8bf93037.chunk.js.map",
     "653.208880d6.chunk.js.map": "/cuck-the-curve/static/js/653.208880d6.chunk.js.map",
     "923.001830cc.chunk.js.map": "/cuck-the-curve/static/js/923.001830cc.chunk.js.map",
@@ -17,7 +17,7 @@
     "453.8753311b.chunk.js.map": "/cuck-the-curve/static/js/453.8753311b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e355a821.css",
-    "static/js/main.9d909ea9.js"
+    "static/css/main.f42c06ca.css",
+    "static/js/main.9567bb1d.js"
   ]
 }
