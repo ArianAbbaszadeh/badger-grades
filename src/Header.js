@@ -1,6 +1,7 @@
 import {IonIcon} from '@ionic/react'
 import {menu, close} from 'ionicons/icons'
 import { useState } from 'react';
+import runViewTransition from './RunViewTransition';
 
 function Header() {
 	const [icon, setIcon] = useState(0);
@@ -16,14 +17,14 @@ function Header() {
                     Badger Grades
                 </span>
                 <span className="text-3xl cursor-pointer md:hidden mx-2 block">
-                    <IonIcon icon={icon == 0 ? menu : close} onClick={() => {
-                        document.startViewTransition(() => {
+                    <IonIcon icon={icon === 0 ? menu : close} onClick={() => {
+                        runViewTransition(() => {
 						    handleClick();
 						})}}/>
                 </span>
             </div>
 
-            <ul className={`md:flex items md:items-center z-10 md:z-auto md:static absolute bg-slate-50 w-full left-0 md:w-auto md:py-0 py-4 md:pl-0 pl-7 md:opacity-100 ${icon == 0 ? "top-[-400px]" : "top-[8vh]"} transition-all ease-in duration-500`}>
+            <ul className={`md:flex items md:items-center z-10 md:z-auto md:static absolute bg-slate-50 w-full left-0 md:w-auto md:py-0 py-4 md:pl-0 pl-7 md:opacity-100 ${icon === 0 ? "top-[-400px]" : "top-[8vh]"} transition-all ease-in duration-500`}>
                 <li className="mx-4 my-6 md:my-0">
                     <a
                         href="#"

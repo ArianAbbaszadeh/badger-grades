@@ -5,6 +5,7 @@ import { IonIcon } from "@ionic/react";
 import {
     checkmarkCircleOutline,
 } from "ionicons/icons";
+import runViewTransition from "./RunViewTransition";
 function CourseSearch({ courses, courseInfo, setCourseInfo, setSelected, setInfo }) {
 
     if (!courses || courses.length === 0) {
@@ -14,7 +15,7 @@ function CourseSearch({ courses, courseInfo, setCourseInfo, setSelected, setInfo
     console.log("Rendering CourseSearch with", courses.length, "courses");
 
     return (  
-        <div id="scroller" className="overflow-y-scroll h-[84%] scrollbar-hide bg-gradient-to-br from-violet-200 via-sky-200 to-indigo-200 rounded-2xl shadow-inner shadow-fuchsia-200 rounded-b-none  overscroll-contain">
+        <div id="scroller" className="overflow-y-scroll h-[84%] scrollbar-hide bg-gradient-to-br from-violet-200 via-sky-200 to-indigo-200 rounded-2xl shadow-inner shadow-fuchsia-200 rounded-b-none">
             {courses.map((course) => (
                 <div
                     key={course.id}
@@ -25,7 +26,7 @@ function CourseSearch({ courses, courseInfo, setCourseInfo, setSelected, setInfo
                     } duration-200 cursor-pointer shadow-lg hover:bg-indigo-200 overflow-hidden hover:text-wrap`}
                     onClick={() => {
                             console.log("Course clicked:", course.name);
-                            document.startViewTransition(() => {
+                            runViewTransition(() => {
                                 setInfo({});
                                 setSelected(2);
                                 setCourseInfo(course);
@@ -36,7 +37,7 @@ function CourseSearch({ courses, courseInfo, setCourseInfo, setSelected, setInfo
                     <div className="flex justify-between">
                         <div className="text-xl flex font-semibold items-center">
                             {course.name} 
-                            {course.currently_taught && (<IonIcon icon={checkmarkCircleOutline} className={`pl-[2px] text-xl ${courseInfo == course ? "text-green-600" : "text-green-500"}  `}/>)}
+                            {course.currently_taught && (<IonIcon icon={checkmarkCircleOutline} className={`pl-[2px] text-xl ${courseInfo === course ? "text-green-600" : "text-green-500"}  `}/>)}
                         </div>
                         <div>
                             <b className="font-semibold">GPA: </b>{" "}

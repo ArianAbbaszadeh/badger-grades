@@ -3,7 +3,6 @@ import { endBefore, limit, limitToLast, startAfter } from "firebase/firestore";
 import { Button } from "react-bootstrap";
 import { IonIcon } from "@ionic/react";
 import {
-    chevronBackCircle,
     chevronBackCircleOutline,
     chevronForwardCircleOutline,
 } from "ionicons/icons";
@@ -41,10 +40,10 @@ function Pagination({
                 <Button
                     className="hover:bg-gray-300 duration-200 rounded-full cursor-pointer"
                     onClick={prev_page}
-                    disabled={num==1}
+                    disabled={num===1}
                 >
                     <IonIcon
-                        className={`text-[4vh] ${num==1 ? "text-slate-500" : ""}`}
+                        className={`text-[4vh] ${num===1 ? "text-slate-500" : ""}`}
                         icon={chevronBackCircleOutline}
                     />
                 </Button>

@@ -1,7 +1,8 @@
 import React, { useState, useRef } from "react";
-import { limit, orderBy } from "firebase/firestore";
+import { limit } from "firebase/firestore";
 import { IonIcon } from "@ionic/react";
 import { checkmarkCircleOutline, closeOutline } from "ionicons/icons";
+import runViewTransition from "./RunViewTransition";
 
 function SearchForm({
     setFilters,
@@ -67,7 +68,7 @@ function SearchForm({
     );
 
     const handleSubjectChange = (selected) => {
-        document.startViewTransition(() => {
+        runViewTransition(() => {
             setSubject(selected.abbr);
             setSubjectSearch(selected.abbr);
             setShowDropdown(false);
@@ -75,7 +76,7 @@ function SearchForm({
     };
 
     const handleCourseChange = (selected) => {
-        document.startViewTransition(() => {
+        runViewTransition(() => {
             setCourse(selected.title);
             setCourseSearch(selected.name);
             setShowCourseDropdown(false);
@@ -149,11 +150,11 @@ function SearchForm({
             ethnic_studies: ethnic_studies.ethnicStudies ? true : null,
             keywords: keywords === "" ? null : keywords.split(" "),
             currently_taught: current ? true : null,
-            title: course == "" ? null : course
+            title: course === "" ? null : course
         };
         console.log("filters", filters);
         // Call the courseSearch function with the formatted filters
-        document.startViewTransition(() => {
+        runViewTransition(() => {
             setFilters(filters);
             setPageFilters([limit(25)]);
             setCourseInfo(null);
@@ -167,14 +168,15 @@ function SearchForm({
         <form
             id="form"
             onSubmit={handleSubmit}
-            className="overflow-y-scroll scrollbar-hide overscroll-contain m"
+            className="overflow-y-scroll scrollbar-hide overscroll-contain cursor-pointer"
         >
             <div className="flex flex-row justify-around font-semibold p-3 m-3">
                 <button
                     className="w-24 h-12 cursor-pointer bg-slate-700 hover:bg-slate-800 active:bg-slate-900 active:scale-95 transition-colors ease-in rounded-full text-white shadow-xl"
                     type="button"
                     onClick={() => {
-                        document.startViewTransition(() => {
+
+                        runViewTransition(() => {
                             setSubject("");
                             setSubjectSearch("");
                             setShowDropdown(false);
@@ -212,7 +214,7 @@ function SearchForm({
                 <div className="shadow-xl rounded-full active:scale-95 transition-all ease-in">
                     <button
                         type="submit"
-                        className="w-24 h-12 bg-indigo-500 hover:bg-none hover:bg-indigo-600 duration-150 rounded-full text-white"
+                        className="w-24 h-12 bg-indigo-500 hover:bg-none cursor-pointer hover:bg-indigo-600 duration-150 rounded-full text-white"
                     >
                         Search
                     </button>
@@ -220,20 +222,20 @@ function SearchForm({
             </div>
 
             <div className="p-3 m-3 bg-slate-300 rounded-3xl shadow-lg" ref={dropdownRef}>
-                <div className="flex justify-around h-[100%] items-center">
+                <div className="flex justify-around h-[100%] items-center cursor-pointer">
                     <input
                         type="text"
                         value={subjectSearch}
                         onChange={(e) => {
                             setSubjectSearch(e.target.value);
                         }}
-                        onClick={() => { document.startViewTransition(() => {setShowDropdown(true); setShowCourseDropdown(false);})}}
+                        onClick={() => { runViewTransition(() => {setShowDropdown(true); setShowCourseDropdown(false);})}}
                         placeholder="Filter by subject"
                         className={`${showDropdown ? "w-[85%]" : "w-[100%]"} text-xl cursor-pointer placeholder:text-slate-400 shadow-lg rounded-2xl bg-slate-200 text-slate-800"  p-2`}
                     />
                     {showDropdown && (
                         <div className="hover:bg-slate-400 rounded-full cursor-pointer ml-1 bg-clip-content duration-100 "
-                            onClick={() => { document.startViewTransition(() => {setShowDropdown(false); setSubject(""); setSubjectSearch("");})}}>
+                            onClick={() => { runViewTransition(() => {setShowDropdown(false); setSubject(""); setSubjectSearch("");})}}>
                             <IonIcon className="text-3xl text-slate-800 p-[6px] pb-0" icon={closeOutline}/>
                         </div>
                     )}
@@ -294,13 +296,13 @@ function SearchForm({
                         onChange={(e) => {
                             setCourseSearch(e.target.value);
                         }}
-                        onClick={() => { document.startViewTransition(() => {setShowCourseDropdown(true); setShowDropdown(false);})}}
+                        onClick={() => { runViewTransition(() => {setShowCourseDropdown(true); setShowDropdown(false);})}}
                         placeholder="Search courses"
                         className={`${showCourseDropdown ? "w-[85%]" : "w-[100%]"} text-xl cursor-pointer placeholder:text-slate-400 shadow-lg rounded-2xl bg-slate-200 text-slate-800"  p-2`}
                     />
                     {showCourseDropdown && (
                         <div className="hover:bg-slate-400 cursor-pointer rounded-full ml-1 bg-clip-content duration-100 "
-                            onClick={() => { document.startViewTransition(() => {setShowCourseDropdown(false); setCourse(""); setCourseSearch("");})}}>
+                            onClick={() => { runViewTransition(() => {setShowCourseDropdown(false); setCourse(""); setCourseSearch("");})}}>
                             <IonIcon className="text-3xl text-slate-800 p-[6px] pb-0" icon={closeOutline}/>
                         </div>
                     )}
@@ -311,7 +313,7 @@ function SearchForm({
                             <div
                                 key={index}
                                 className="p-2 my-3 mx-2 cursor-pointer border-b-black rounded-xl duration-150 bg-slate-200 hover:bg-slate-50 shadow-lg active:bg-white shadow-slate-400"
-                                onClick={() => setTimeout(handleCourseChange(c), 500)}
+                                onClick={() => handleCourseChange(c)}
                             >
                                 <div className="text-slate-700 leading-tight text-lg font-medium ">
                                     {c.name}
@@ -329,7 +331,7 @@ function SearchForm({
             
 
             <div className={`m-3 p-2 cursor-pointer shadow-lg rounded-3xl flex justify-start duration-100 items-center gap-2 ${current ? "bg-green-600 text-slate-50 hover:bg-green-700" : "bg-slate-300 hover:bg-slate-400"}`}
-                onClick={() => {document.startViewTransition(() => {setCurrent(!current)})}}>
+                onClick={() => {runViewTransition(() => {setCurrent(!current)})}}>
                 <IonIcon className="text-3xl" icon={checkmarkCircleOutline}/>
                  <div className="text-lg">
                     Currently Taught

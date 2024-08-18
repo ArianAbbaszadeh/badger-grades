@@ -21,10 +21,9 @@ import { IonIcon } from "@ionic/react";
 import {
     caretBackOutline,
     caretForwardOutline,
-    checkmarkCircleOutline,
-    arrowBackOutline,
-    time
+    checkmarkCircleOutline
 } from "ionicons/icons";
+import runViewTransition from "./RunViewTransition";
 
 ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
 function sem_from_term(term) {
@@ -162,7 +161,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo}) {
                         }
                     );
                 });
-                document.startViewTransition(() => {
+                runViewTransition(() => {
                     setMadgrades(temp);
                 });
             } catch (error) {
@@ -407,7 +406,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo}) {
                                             : "hover:bg-slate-500 bg-slate-400"
                                     } text-white rounded-full shadow-md text-nowrap flex flex-row min-h-12 cursor-pointer`}
                                     onClick={() => {
-                                        document.startViewTransition(() => {
+                                        runViewTransition(() => {
                                             if (
                                                 offering === null ||
                                                 offering.term !== term

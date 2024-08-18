@@ -17,6 +17,7 @@ import "./index.css";
 import { IonIcon } from "@ionic/react";
 import { arrowBackOutline } from "ionicons/icons";
 import Sorter from "./Sorter";
+import runViewTransition from "./RunViewTransition";
 
 function App() {
     console.log("App component rendering");
@@ -38,7 +39,7 @@ function App() {
     const fetchCourses = useCallback(async () => {
         console.log("fetchCourses called with filters:", filters);
         setIsLoading(true);
-        if(selected == 2)setSelected(1);
+        if(selected === 2) setSelected(1);
         try {
             const courseRef = collection(db, "courses");
             const constraints = [];
@@ -60,7 +61,7 @@ function App() {
             }
 
             const sort_call = []
-            sort == "gpa" ? sort_call.push(orderBy(sort, "desc")) : sort_call.push(orderBy(sort))
+            sort === "gpa" ? sort_call.push(orderBy(sort, "desc")) : sort_call.push(orderBy(sort))
             const q = query(
                 courseRef,
                 ...constraints,
@@ -81,7 +82,7 @@ function App() {
             });
             
             console.log(`Setting courses with ${courseData.length} items`);
-            document.startViewTransition(() => {
+            runViewTransition(() => {
                 setCourses(courseData);
             });
         } catch (err) {
@@ -139,7 +140,7 @@ function App() {
                                     icon={arrowBackOutline}
                                     onClick={() => {
                                         console.log("Back button clicked, setting selected to 0");
-                                        document.startViewTransition(() => {
+                                        runViewTransition(() => {
                                             setSelected(0);
                                             
                                         });
@@ -180,7 +181,7 @@ function App() {
                                 icon={arrowBackOutline}
                                 onClick={() => {
                                     console.log("Back button clicked, setting selected to 1");
-                                    document.startViewTransition(() => {
+                                    runViewTransition(() => {
                                         setCourseInfo(null);
                                         setSelected(1);
                                     });
@@ -204,7 +205,7 @@ function App() {
 
     console.log(`Rendering App component, desktop: ${desktop}`);
     return (
-        <div className="font-[Poppins] text-slate-800 bg-slate-50 box min-w-[100vw] min-h-[100vh] cursor-default">
+        <div className="font-[Poppins] text-slate-800 bg-slate-50 box min-w-[100vw] cursor-default">
             <Header />
             {desktop ? (
                 <div className="flex flex-row">
@@ -256,7 +257,7 @@ function App() {
                                         icon={arrowBackOutline}
                                         onClick={() => {
                                             console.log("Back button clicked, setting selected to 1");
-                                            document.startViewTransition(() => {
+                                            runViewTransition(() => {
                                                 setCourseInfo(null);
                                                 setSelected(1);
                                             });
@@ -275,7 +276,7 @@ function App() {
                     </div>                 
                 </div>
             ) : (
-                <div className="w-full">
+                <div className="h-[92vh]">
                     {renderMobileView()}
                 </div>
             )}
