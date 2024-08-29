@@ -18,6 +18,7 @@ import { IonIcon } from "@ionic/react";
 import { arrowBackOutline } from "ionicons/icons";
 import Sorter from "./Sorter";
 import runViewTransition from "./RunViewTransition";
+import CSLoader from "./CourseSearchWait";
 
 function App() {
     console.log("App component rendering");
@@ -45,7 +46,10 @@ function App() {
             const constraints = [];
             for (const [field, val] of Object.entries(filters)) {
                 if (val != null) {
-                    if (field === "ethnic_studies" || field === "breadths" || field === "level" || field === 'subject_abbr' || field === "currently_taught" || field === "title") {
+                    if(field === "course_num" || field === "min_cred" || field == "max_cred" || field == "gpa"){
+                        constraints.push(where(field, '>=', val[0]));
+                        constraints.push(where(field, '<=', val[1]));
+                    } else if (field === "ethnic_studies" || field === "breadths" || field === "level" || field === 'subject_abbr' || field === "currently_taught" || field === "title") {
                         constraints.push(where(field, "==", val));
                         console.log(`Adding constraint: ${field} == ${val}`);
                     } else if (Array.isArray(val) && val.length > 0) {
@@ -88,7 +92,9 @@ function App() {
         } catch (err) {
             console.error("Error fetching courses:", err);
         } finally {
-            setIsLoading(false);
+            runViewTransition(() => {
+                setIsLoading(false);
+            })
             const scroller = document.getElementById("scroller");
             if (scroller) {
                 console.log("Scrolling to top");
@@ -146,7 +152,7 @@ function App() {
                                         });
                                     }}
                                 />
-                                <div className="flex justify-between sm:w-[60%] w-[100%] pl-2">
+                                <div className="flex justify-between items-start sm:w-[60%] w-[100%] pl-2">
                                     <div className="text-[26px] font-semibold">
                                         Courses
                                     </div>
@@ -154,6 +160,9 @@ function App() {
                                 </div>
                             </div>
                         </div>
+                        { isLoading ? 
+                        <CSLoader message="Loading"/>
+                        : 
                         <CourseSearch
                             courses={courses}
                             courseInfo={courseInfo}
@@ -161,6 +170,7 @@ function App() {
                             setSelected={setSelected}
                             setInfo={setInfo}
                         />
+                        }
                         <Pagination
                             disabled={courses.length < PAGE_SIZE}
                             head={head}
@@ -224,18 +234,22 @@ function App() {
                         <Suspense fallback={<div className="bg-cyan-950">Loading...</div>}>
                             <div className="rounded-t-3xl shadow-slate-500 shadow-2xl min-w-[324px] w-[60%] flex-col flex bg-slate-200 mt-3">
                                 <div className="h-[8%] min-h-8 text-center bg-transparent before">
-                                    <div className="flex flex-row justify-between h-[100%] m-4 bg-transparent">
-                                        <div className="text-3xl font-semibold">Courses</div>
-                                        <Sorter setSort={setSort} sort={sort}/>
+                                    <div className="flex flex-row justify-between items-start mt-[1vh] mx-4 h-[100%] bg-transparent">
+                                        <div className="text-2xl font-semibold">Courses</div>
+                                        <Sorter className="flex items-end" setSort={setSort} sort={sort}/>
                                     </div>
                                 </div>
-                                <CourseSearch
-                                    courses={courses}
-                                    courseInfo={courseInfo}
-                                    setCourseInfo={setCourseInfo}
-                                    setSelected={setSelected}
-                                    setInfo={setInfo}
-                                />
+                        { isLoading ? 
+                            <CSLoader message="Loading"/>
+                        : 
+                        <CourseSearch
+                            courses={courses}
+                            courseInfo={courseInfo}
+                            setCourseInfo={setCourseInfo}
+                            setSelected={setSelected}
+                            setInfo={setInfo}
+                        />
+                        }
                                 <Pagination
                                     disabled={courses.length < PAGE_SIZE}
                                     head={head}

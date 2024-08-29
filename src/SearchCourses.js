@@ -10,7 +10,10 @@ function CourseSearch({ courses, courseInfo, setCourseInfo, setSelected, setInfo
 
     if (!courses || courses.length === 0) {
         console.log("No courses found");
-        return <div>No courses found. Try adjusting your search criteria.</div>;
+        return (
+            <div className="h-[84%] flex items-center justify-around p-3 text-center">
+                No courses found. Try adjusting your search criteria.
+            </div>);
     }
     console.log("Rendering CourseSearch with", courses.length, "courses");
 

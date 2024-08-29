@@ -21,7 +21,7 @@ import { IonIcon } from "@ionic/react";
 import {
     caretBackOutline,
     caretForwardOutline,
-    checkmarkCircleOutline
+    checkmarkCircleOutline,
 } from "ionicons/icons";
 import runViewTransition from "./RunViewTransition";
 
@@ -38,139 +38,164 @@ function sem_from_term(term) {
     }
 }
 
-function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo}) {
+function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
+    const [madLoading, setMadLoading] = useState(true);
     const [offering, setOffering] = useState(null);
     const [instructor, setInstructor] = useState(null);
     const [instructorTerm, setInstructorTerm] = useState(null);
 
-    const fetchGradeInfo = useCallback(async (url) => {
-        setMadgrades(null);
-        setOffering(null);
-        setInstructor(null);
-        setInstructorTerm(null);
-        try {
-            const response = await fetch(url, {
-                method: "GET",
-                headers: {
-                    Authorization: "Token token=" + apiToken,
-                    Accept: "application/json",
-                },
-            });
-
-            if (!response.ok) {
-                console.error("Failed to fetch grade info:", response.status);
-                return null;
-            }
-
-            const json = await response.json();
+    const fetchGradeInfo = useCallback(
+        async (url) => {
+            setMadLoading(true);
+            setMadgrades(null);
+            setOffering(null);
+            setInstructor(null);
+            setInstructorTerm(null);
             try {
-                const response2 = await fetch(json.gradesUrl, {
+                const response = await fetch(url, {
                     method: "GET",
                     headers: {
                         Authorization: "Token token=" + apiToken,
                         Accept: "application/json",
                     },
                 });
-                if (!response2.ok) {
+
+                if (!response.ok) {
                     console.error(
-                        "Failed to fetch detailed grade info:",
-                        response2.status
+                        "Failed to fetch grade info:",
+                        response.status
                     );
                     return null;
                 }
 
-                const grade_json = await response2.json();
-                const temp = {};
-                temp.cumulative = grade_json.cumulative;
-                temp.terms = {};
-                temp.instructors = {};
-                grade_json.courseOfferings.map((offer) => {
-                    const temp_term = sem_from_term(offer.termCode);
-                    const temp_offer = {};
-                    temp_offer.cumulative = offer.cumulative;
-                    temp_offer.instructors = {};
-                    offer.sections.map((section) => {
-                        section.instructors.map((instructor) => {
-                            if (
-                                Object.keys(temp_offer.instructors).includes(
-                                    instructor.name
-                                )
-                            ) {
-                                temp_offer.instructors[instructor.name].A +=
-                                    section.aCount;
-                                temp_offer.instructors[instructor.name].AB +=
-                                    section.abCount;
-                                temp_offer.instructors[instructor.name].B +=
-                                    section.bCount;
-                                temp_offer.instructors[instructor.name].BC +=
-                                    section.bcCount;
-                                temp_offer.instructors[instructor.name].C +=
-                                    section.cCount;
-                                temp_offer.instructors[instructor.name].D +=
-                                    section.dCount;
-                                temp_offer.instructors[instructor.name].F +=
-                                    section.fCount;
-                                temp_offer.instructors[instructor.name].total +=
-                                    section.total;
-                            } else {
-                                temp_offer.instructors[instructor.name] = {};
-                                temp_offer.instructors[instructor.name].A =
-                                    section.aCount;
-                                temp_offer.instructors[instructor.name].AB =
-                                    section.abCount;
-                                temp_offer.instructors[instructor.name].B =
-                                    section.bCount;
-                                temp_offer.instructors[instructor.name].BC =
-                                    section.bcCount;
-                                temp_offer.instructors[instructor.name].C =
-                                    section.cCount;
-                                temp_offer.instructors[instructor.name].D =
-                                    section.dCount;
-                                temp_offer.instructors[instructor.name].F =
-                                    section.fCount;
-                                temp_offer.instructors[instructor.name].total =
-                                    section.total;
-                            }
-                        });
+                const json = await response.json();
+                try {
+                    const response2 = await fetch(json.gradesUrl, {
+                        method: "GET",
+                        headers: {
+                            Authorization: "Token token=" + apiToken,
+                            Accept: "application/json",
+                        },
                     });
-                    temp.terms[temp_term] = temp_offer;
-                });
-
-                Object.entries(temp.terms).forEach(([term_name, term_info]) => {
-                    if (term_info.instructors === null) {
-                        return;
+                    if (!response2.ok) {
+                        console.error(
+                            "Failed to fetch detailed grade info:",
+                            response2.status
+                        );
+                        return null;
                     }
-                    Object.entries(term_info.instructors).forEach(
-                        ([inst_name, inst_info]) => {
-                            if (
-                                Object.keys(temp.instructors).includes(
-                                    inst_name
-                                )
-                            ) {
-                                Object.keys(inst_info).forEach((key) => {
-                                    temp.instructors[inst_name][key] +=
-                                        inst_info[key];
-                                });
-                            } else {
-                                temp.instructors[inst_name] = {};
-                                Object.keys(inst_info).forEach((key) => {
-                                    temp.instructors[inst_name][key] =
-                                        inst_info[key];
-                                });
+
+                    const grade_json = await response2.json();
+                    const temp = {};
+                    temp.cumulative = grade_json.cumulative;
+                    temp.terms = {};
+                    temp.instructors = {};
+                    grade_json.courseOfferings.map((offer) => {
+                        const temp_term = sem_from_term(offer.termCode);
+                        const temp_offer = {};
+                        temp_offer.cumulative = offer.cumulative;
+                        temp_offer.instructors = {};
+                        offer.sections.map((section) => {
+                            section.instructors.map((instructor) => {
+                                if (
+                                    Object.keys(
+                                        temp_offer.instructors
+                                    ).includes(instructor.name)
+                                ) {
+                                    temp_offer.instructors[instructor.name].A +=
+                                        section.aCount;
+                                    temp_offer.instructors[
+                                        instructor.name
+                                    ].AB += section.abCount;
+                                    temp_offer.instructors[instructor.name].B +=
+                                        section.bCount;
+                                    temp_offer.instructors[
+                                        instructor.name
+                                    ].BC += section.bcCount;
+                                    temp_offer.instructors[instructor.name].C +=
+                                        section.cCount;
+                                    temp_offer.instructors[instructor.name].D +=
+                                        section.dCount;
+                                    temp_offer.instructors[instructor.name].F +=
+                                        section.fCount;
+                                    temp_offer.instructors[
+                                        instructor.name
+                                    ].total += section.total;
+                                } else {
+                                    temp_offer.instructors[instructor.name] =
+                                        {};
+                                    temp_offer.instructors[instructor.name].A =
+                                        section.aCount;
+                                    temp_offer.instructors[instructor.name].AB =
+                                        section.abCount;
+                                    temp_offer.instructors[instructor.name].B =
+                                        section.bCount;
+                                    temp_offer.instructors[instructor.name].BC =
+                                        section.bcCount;
+                                    temp_offer.instructors[instructor.name].C =
+                                        section.cCount;
+                                    temp_offer.instructors[instructor.name].D =
+                                        section.dCount;
+                                    temp_offer.instructors[instructor.name].F =
+                                        section.fCount;
+                                    temp_offer.instructors[
+                                        instructor.name
+                                    ].total = section.total;
+                                }
+                            });
+                        });
+                        temp.terms[temp_term] = temp_offer;
+                    });
+
+                    Object.entries(temp.terms).forEach(
+                        ([term_name, term_info]) => {
+                            if (term_info.instructors === null) {
+                                return;
                             }
+                            Object.entries(term_info.instructors).forEach(
+                                ([inst_name, inst_info]) => {
+                                    if (
+                                        Object.keys(temp.instructors).includes(
+                                            inst_name
+                                        )
+                                    ) {
+                                        Object.keys(inst_info).forEach(
+                                            (key) => {
+                                                temp.instructors[inst_name][
+                                                    key
+                                                ] += inst_info[key];
+                                            }
+                                        );
+                                    } else {
+                                        temp.instructors[inst_name] = {};
+                                        Object.keys(inst_info).forEach(
+                                            (key) => {
+                                                temp.instructors[inst_name][
+                                                    key
+                                                ] = inst_info[key];
+                                            }
+                                        );
+                                    }
+                                }
+                            );
                         }
                     );
-                });
-                runViewTransition(() => {
-                    setMadgrades(temp);
-                });
+                    runViewTransition(() => {
+                        setMadLoading(false);
+                        setMadgrades(temp);
+                    });
+                } catch (error) {
+                    console.error(
+                        "Error processing grade data:",
+                        error.message
+                    );
+                }
             } catch (error) {
-                console.error("Error processing grade data:", error.message);
+                console.error("Error fetching grade info:", error.message);
             }
-        } catch (error) {
-            console.error("Error fetching grade info:", error.message);
-        }
-    }, [setMadgrades]);
+        },
+        [setMadgrades]
+    );
 
     const fetchCourseInfo = useCallback(async () => {
         var max = -1;
@@ -190,7 +215,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo}) {
 
         try {
             const docSnapshot = await getDoc(
-                doc(collection(db, "course_info"), max_uuid)
+                doc(collection(db, "courseInfo"), max_uuid)
             );
             if (docSnapshot.exists()) {
                 setInfo(docSnapshot.data());
@@ -203,7 +228,6 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo}) {
         } catch (error) {
             console.error("Error fetching course info:", error);
         }
-        
     }, [courseInfo]);
     const scrollRef = useRef(null);
 
@@ -213,7 +237,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo}) {
             timeProt.current = true;
             console.log("timer started", timeProt);
             setTimeout(() => {
-                timeProt.current = false
+                timeProt.current = false;
                 console.log("timer ended", timeProt);
             }, 10);
             console.log("Fetching information for course:", courseInfo.name);
@@ -227,7 +251,14 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo}) {
     let values = [];
 
     if (madgrades != null) {
-        total = madgrades.cumulative.aCount + madgrades.cumulative.abCount + madgrades.cumulative.bCount + madgrades.cumulative.bcCount + madgrades.cumulative.cCount + madgrades.cumulative.dCount + madgrades.cumulative.fCount;
+        total =
+            madgrades.cumulative.aCount +
+            madgrades.cumulative.abCount +
+            madgrades.cumulative.bCount +
+            madgrades.cumulative.bcCount +
+            madgrades.cumulative.cCount +
+            madgrades.cumulative.dCount +
+            madgrades.cumulative.fCount;
         const gradeData = Object.fromEntries(
             Object.entries(madgrades.cumulative).filter(
                 ([key]) =>
@@ -365,17 +396,26 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo}) {
         responsive: true,
     };
 
-    return (
+    return madLoading ? (
+        <div className="text-center flex items-center">Loading</div>
+    ) : (
         <div className="flex flex-wrap">
             <div className="flex-col">
-            
                 <div className="text-[28px] font-semibold m-1">
                     <div>
-                        {Object.keys(info).length > 0 ? info.title_suggest != null ? info.title_suggest : info.title : courseInfo.title}
+                        {Object.keys(info).length > 0
+                            ? info.title_suggest != null
+                                ? info.title_suggest
+                                : info.title
+                            : courseInfo.title}
                     </div>
                 </div>
                 <div className="text-slate-600 text-[1.25rem] font-medium m-1 flex justify-start align-middle">
-                    <div className="p-1 mr-1">{info.course_designation ? info.course_designation : courseInfo.name}</div>
+                    <div className="p-1 mr-1">
+                        {info.course_designation
+                            ? info.course_designation
+                            : courseInfo.name}
+                    </div>
                     {courseInfo.currently_taught ? (
                         <div className="text-white flex bg-green-600 rounded-full p-1 pr-3 text-lg">
                             <IonIcon
@@ -509,12 +549,18 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo}) {
                 <div className="text-2xl font-semibold">Course Description</div>
                 <div>{info.description}</div>
             </div>
-            <div className="flex">
-                <div className="flex flex-col rounded-3xl bg-slate-200 min-w-[180px] shadow-xl p-3 m-3">
-                    <div className="text-2xl font-semibold">
-                        Enrollment Prerequisites
-                    </div>
+            <div className="flex flex-wrap">
+                <div className="flex flex-col rounded-3xl bg-slate-200 shadow-xl p-3 m-3">
+                    <div className="text-2xl font-semibold text-nowrap"> Enrollment Prerequisites </div>
                     <div>{info.prerequisites}</div>
+                </div>
+                <div className="flex-col rounded-3xl bg-slate-200 shadow-xl p-3 m-3">
+                    <div className="text-2xl font-semibold text-nowrap"> Typically Offered</div>
+                    {info.typically_offered}
+                </div>
+                <div className="flex-col rounded-3xl bg-slate-200  shadow-xl p-3 m-3">
+                    <div className="text-2xl font-semibold text-nowrap">Grading Basis</div>
+                    {info.grading_basis}
                 </div>
             </div>
             <div className="h-10"></div>

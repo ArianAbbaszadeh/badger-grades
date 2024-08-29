@@ -3,6 +3,7 @@ import { limit } from "firebase/firestore";
 import { IonIcon } from "@ionic/react";
 import { checkmarkCircleOutline, closeOutline } from "ionicons/icons";
 import runViewTransition from "./RunViewTransition";
+import {ConfigProvider, Slider} from "antd";
 
 function SearchForm({
     setFilters,
@@ -45,6 +46,12 @@ function SearchForm({
         ethnicStudies: null,
     });
     const [current, setCurrent] = useState(false)
+
+    const [courseNumRange, setCourseNumRange] = useState([0,999]);
+    
+    const [creditRange, setCreditRange] = useState([0,12]);
+
+    const [GPARange, setGPARange] = useState([0.00, 4.00]);
 
     const dropdownRef = useRef(null);
 
@@ -150,7 +157,11 @@ function SearchForm({
             ethnic_studies: ethnic_studies.ethnicStudies ? true : null,
             keywords: keywords === "" ? null : keywords.split(" "),
             currently_taught: current ? true : null,
-            title: course === "" ? null : course
+            title: course === "" ? null : course,
+            course_num: courseNumRange[0] === 0 && courseNumRange[1] === 999 ? null : courseNumRange,
+            min_cred: creditRange[0] === 0 ? null : creditRange,
+            max_cred: creditRange[1] === 12 ? null : creditRange,
+            gpa: GPARange[0] === 0 && GPARange[1] === 4 ? null : GPARange
         };
         console.log("filters", filters);
         // Call the courseSearch function with the formatted filters
@@ -163,6 +174,7 @@ function SearchForm({
             setSelected(1);
         });
     };
+
 
     return (
         <form
@@ -184,6 +196,9 @@ function SearchForm({
                             setCourseSearch("");
                             setShowCourseDropdown(false);
                             setKeywords("");
+                            setCourseNumRange([0,999]);
+                            setCreditRange([0,12]);          
+                            setGPARange([0.00,4.00]);              
                             setBreadths(
                                 Object.fromEntries(
                                     Object.keys(breadths).map((k) => [k, false])
@@ -205,7 +220,7 @@ function SearchForm({
                             setSort("course_num")
                             setNum(1);
                             setCourseInfo(null);
-                
+                            
                         });
                     }}
                 >
@@ -337,8 +352,55 @@ function SearchForm({
                     Currently Taught
                 </div>
             </div>
-
-
+            
+            <div className="m-3 shadow-xl bg-slate-300 rounded-2xl relative p-3">
+                <ConfigProvider
+                theme={{
+                    components: {
+                      Slider: {
+                        trackBg: '#22c55e',
+                        trackHoverBg: '#16a34a',
+                        dotActiveBorderColor: '#15803d',
+                        handleActiveColor: '#15803d',
+                        handleColor: '#22c55e',
+                      },
+                    },
+                  }}        
+                >
+                <div className="text-xl font-semibold">Credits</div>
+                <Slider
+                    className="m-2"
+                    range
+                    value={creditRange}
+                    max ={12}
+                    step={1}
+                    marks={{0: `${creditRange[0]}`, 12: `${creditRange[1]}`}}
+                    onChange={([min,max]) => {setCreditRange([min,max]);}}
+                />
+                <div className="text-xl font-semibold mt-4">GPA</div>
+                <Slider
+                    className="m-2"
+                    range
+                    step={0.01}
+                    value={GPARange}
+                    max ={4.00}
+                    marks={{0: `${GPARange[0]}`, 4.00: `${GPARange[1]}`}}
+                    onChange={([min,max]) => {setGPARange([min,max]);}}
+                />
+                <div className="text-xl font-semibold mt-4">Course Number</div>
+                <Slider
+                    className="m-2"
+                    range
+                    value={courseNumRange}
+                    step={1}
+                    max = {999}
+                    marks={{0: `${courseNumRange[0]}`, 999: `${courseNumRange[1]}`}}
+                    onChange={([min,max]) => {setCourseNumRange([min,max]); }}
+                />
+                
+                </ConfigProvider>
+            </div>
+                    
             <div className="m-3 shadow-xl bg-slate-300 rounded-2xl relative p-3">
                 <div className="flex flex-col relative">
                     <h1 className="pl-3 text-2xl text-slate-800 font-semibold">Breadths</h1>
@@ -349,9 +411,9 @@ function SearchForm({
                                 onClick={() => handleBreadthChange(key)}
                                 className={`m-1 cursor-pointer p-1 pl-3 pr-3 transition-all duration-150 active:scale-95 ${
                                     breadths[key]
-                                        ? "hover:bg-green-800 bg-green-900"
-                                        : "hover:bg-green-700 bg-green-600"
-                                } rounded-full text-white shadow-lg`}
+                                        ? "hover:bg-green-500 bg-green-400"
+                                        : "hover:bg-green-600 bg-green-700 text-slate-50"
+                                } rounded-full  shadow-lg`}
                             >
                                 <span>
                                     {key
@@ -380,9 +442,9 @@ function SearchForm({
                                 }
                                 className={`m-1 p-1 pl-3 pr-3 cursor-pointer transition-all duration-150 active:scale-95 ${
                                     general_ed[key]
-                                        ? "hover:bg-emerald-800 bg-emerald-900"
-                                        : "hover:bg-emerald-700 bg-emerald-600"
-                                } rounded-full text-white shadow-lg`}
+                                        ? "hover:bg-emerald-500 bg-emerald-400"
+                                        : "hover:bg-emerald-600 bg-emerald-700 text-slate-50"
+                                } rounded-full  shadow-lg`}
                             >
                                 <span>
                                     {key
@@ -411,9 +473,9 @@ function SearchForm({
                                 }
                                 className={`m-1 p-1 pl-3 cursor-pointer pr-3 transition-colors duration-150 active:scale-95 ${
                                     levels[key]
-                                        ? "hover:bg-teal-800 bg-teal-900"
-                                        : "hover:bg-teal-700 bg-teal-600"
-                                } rounded-full text-white shadow-lg`}
+                                        ? "hover:bg-teal-500 bg-teal-400"
+                                        : "hover:bg-teal-600 bg-teal-700 text-slate-50"
+                                } rounded-full shadow-lg`}
                             >
                                 <span>
                                     {key
