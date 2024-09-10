@@ -433,8 +433,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                 <Suspense>
                     <div
                         ref={scrollRef}
-                        className="flex flex-row overflow-x-scroll border-black overflow-clip scrollbar-hide"
-                        style={{}}
+                        className="flex flex-row overflow-x-scroll border-black overflow-clip"
                     >
                         {Object.entries(madgrades.terms).map(
                             ([term, term_info]) => [
@@ -471,7 +470,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                                         className={`max-w-96 overflow-x-scroll flex flex-row flex-nowrap scrollbar-hide rounded-full`}
                                     >
                                         {offering != null &&
-                                        offering["term"] === term ? (
+                                        offering["term"] === term && (
                                             Object.entries(
                                                 term_info.instructors
                                             ).map(([inst_name, inst_info]) => (
@@ -515,8 +514,6 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                                                     {inst_name}
                                                 </div>
                                             ))
-                                        ) : (
-                                            <></>
                                         )}
                                     </div>
                                     <div

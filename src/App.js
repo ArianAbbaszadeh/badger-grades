@@ -24,7 +24,7 @@ function App() {
     console.log("App component rendering");
     const [info, setInfo] = useState({});
     const [courses, setCourses] = useState([]);
-    var PAGE_SIZE = 25;
+    const PAGE_SIZE = 25;
     const [filters, setFilters] = useState({});
     const [pageFilters, setPageFilters] = useState([limit(25)]);
     const [head, setHead] = useState(null);
