@@ -2,6 +2,7 @@ import {IonIcon} from '@ionic/react'
 import {menu, close} from 'ionicons/icons'
 import { useState } from 'react';
 import runViewTransition from './RunViewTransition';
+import {Link} from 'react-router-dom';
 
 function Header() {
 	const [icon, setIcon] = useState(0);
@@ -11,7 +12,7 @@ function Header() {
 		setOpacity(0);
 	}
     return (
-        <nav className="p-3 h-[8vh] min-h-15 bg-slate-50 shadow md:flex md:items-center md:justify-between">
+        <nav className="p-3 h-[8vh] min-h-15 bg-slate-50 border-b-2 border-slate-200 md:flex md:items-center md:justify-between">
             <div className="flex justify-between items-center">
                 <span className="text-3xl font-semibold font-[Poppins] cursor-pointer">
                     Badger Grades
@@ -26,28 +27,34 @@ function Header() {
 
             <ul className={`md:flex items md:items-center z-10 md:z-auto md:static absolute bg-slate-50 w-full left-0 md:w-auto md:py-0 py-4 md:pl-0 pl-7 md:opacity-100 ${icon === 0 ? "top-[-400px]" : "top-[8vh]"} transition-all ease-in duration-500`}>
                 <li className="mx-4 my-6 md:my-0">
-                    <a
-                        href="#"
-                        className="text-xl font-medium hover:text-blue-500 duration-200"
-                    >
-                        HOME
-                    </a>
+                    <Link to="/home">
+                        <div
+                            className="text-xl font-medium hover:text-blue-500 duration-200"
+                            href='#'
+                        >
+                            HOME
+                        </div>
+                    </Link>
                 </li>
                 <li className="mx-4 my-6 md:my-0">
-                    <a
-                        href="#"
-                        className="text-xl font-medium hover:text-blue-500 duration-200"
-                    >
-                        COURSE SEARCH
-                    </a>
+                    <Link to="/course_search">
+                        <div
+                            className="text-xl font-medium hover:text-blue-500 duration-200"
+                            href='#'
+                        >
+                            COURSE SEARCH
+                        </div>
+                    </Link>
                 </li>
                 <li className="mx-4 my-6 md:my-0">
-                    <a
-                        href="#"
-                        className="text-xl font-medium hover:text-blue-500 duration-200"
-                    >
-                        ABOUT
-                    </a>
+                    <Link to="/about">
+                        <div
+                            className="text-xl font-medium hover:text-blue-500 duration-200"
+                            href='#'
+                        >
+                            ABOUT
+                        </div>
+                    </Link>
                 </li>
             </ul>
         </nav>
