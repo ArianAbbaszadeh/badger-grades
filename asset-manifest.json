@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/cuck-the-curve/static/css/main.7da4000c.css",
-    "main.js": "/cuck-the-curve/static/js/main.1eec621d.js",
+    "main.css": "/cuck-the-curve/static/css/main.b93030e8.css",
+    "main.js": "/cuck-the-curve/static/js/main.deb3c1b9.js",
+    "static/js/453.8753311b.chunk.js": "/cuck-the-curve/static/js/453.8753311b.chunk.js",
     "static/js/738.8bf93037.chunk.js": "/cuck-the-curve/static/js/738.8bf93037.chunk.js",
     "static/js/653.208880d6.chunk.js": "/cuck-the-curve/static/js/653.208880d6.chunk.js",
     "static/js/923.001830cc.chunk.js": "/cuck-the-curve/static/js/923.001830cc.chunk.js",
     "static/js/627.dce16540.chunk.js": "/cuck-the-curve/static/js/627.dce16540.chunk.js",
-    "static/js/453.8753311b.chunk.js": "/cuck-the-curve/static/js/453.8753311b.chunk.js",
     "index.html": "/cuck-the-curve/index.html",
-    "main.7da4000c.css.map": "/cuck-the-curve/static/css/main.7da4000c.css.map",
-    "main.1eec621d.js.map": "/cuck-the-curve/static/js/main.1eec621d.js.map",
+    "main.b93030e8.css.map": "/cuck-the-curve/static/css/main.b93030e8.css.map",
+    "main.deb3c1b9.js.map": "/cuck-the-curve/static/js/main.deb3c1b9.js.map",
+    "453.8753311b.chunk.js.map": "/cuck-the-curve/static/js/453.8753311b.chunk.js.map",
     "738.8bf93037.chunk.js.map": "/cuck-the-curve/static/js/738.8bf93037.chunk.js.map",
     "653.208880d6.chunk.js.map": "/cuck-the-curve/static/js/653.208880d6.chunk.js.map",
     "923.001830cc.chunk.js.map": "/cuck-the-curve/static/js/923.001830cc.chunk.js.map",
-    "627.dce16540.chunk.js.map": "/cuck-the-curve/static/js/627.dce16540.chunk.js.map",
-    "453.8753311b.chunk.js.map": "/cuck-the-curve/static/js/453.8753311b.chunk.js.map"
+    "627.dce16540.chunk.js.map": "/cuck-the-curve/static/js/627.dce16540.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7da4000c.css",
-    "static/js/main.1eec621d.js"
+    "static/css/main.b93030e8.css",
+    "static/js/main.deb3c1b9.js"
   ]
 }
