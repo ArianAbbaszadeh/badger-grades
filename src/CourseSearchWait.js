@@ -1,23 +1,5 @@
-import React, { useState, useEffect, useCallback, Suspense } from "react";
-import CourseSearch from "./SearchCourses";
-import SearchForm from "./SearchForm";
-import Header from "./Header";
-import { db } from "./firebase";
-import {
-    collection,
-    query,
-    where,
-    getDocs,
-    limit,
-    orderBy,
-} from "firebase/firestore";
-import Pagination from "./Pagination";
-import CourseInfo from "./CourseInfo";
-import "./index.css";
-import { IonIcon } from "@ionic/react";
-import { arrowBackOutline } from "ionicons/icons";
-import Sorter from "./Sorter";
-import runViewTransition from "./RunViewTransition";
+import React from "react";
+
 
 function CSLoader({message}){
 	return (

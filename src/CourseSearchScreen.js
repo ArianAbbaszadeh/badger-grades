@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, Suspense } from "react";
 import CourseSearch from "./SearchCourses";
 import SearchForm from "./SearchForm";
-import Header from "./Header";
 import { db } from "./firebase";
 import {
     collection,
