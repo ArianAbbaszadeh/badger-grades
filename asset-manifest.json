@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/cuck-the-curve/static/css/main.b93030e8.css",
-    "main.js": "/cuck-the-curve/static/js/main.59bb93e2.js",
-    "static/js/453.8753311b.chunk.js": "/cuck-the-curve/static/js/453.8753311b.chunk.js",
-    "static/js/738.8bf93037.chunk.js": "/cuck-the-curve/static/js/738.8bf93037.chunk.js",
-    "static/js/653.208880d6.chunk.js": "/cuck-the-curve/static/js/653.208880d6.chunk.js",
-    "static/js/923.001830cc.chunk.js": "/cuck-the-curve/static/js/923.001830cc.chunk.js",
-    "static/js/627.dce16540.chunk.js": "/cuck-the-curve/static/js/627.dce16540.chunk.js",
-    "index.html": "/cuck-the-curve/index.html",
-    "main.b93030e8.css.map": "/cuck-the-curve/static/css/main.b93030e8.css.map",
-    "main.59bb93e2.js.map": "/cuck-the-curve/static/js/main.59bb93e2.js.map",
-    "453.8753311b.chunk.js.map": "/cuck-the-curve/static/js/453.8753311b.chunk.js.map",
-    "738.8bf93037.chunk.js.map": "/cuck-the-curve/static/js/738.8bf93037.chunk.js.map",
-    "653.208880d6.chunk.js.map": "/cuck-the-curve/static/js/653.208880d6.chunk.js.map",
-    "923.001830cc.chunk.js.map": "/cuck-the-curve/static/js/923.001830cc.chunk.js.map",
-    "627.dce16540.chunk.js.map": "/cuck-the-curve/static/js/627.dce16540.chunk.js.map"
+    "main.css": "/badger-grades/static/css/main.b93030e8.css",
+    "main.js": "/badger-grades/static/js/main.a951b437.js",
+    "static/js/453.8753311b.chunk.js": "/badger-grades/static/js/453.8753311b.chunk.js",
+    "static/js/738.8bf93037.chunk.js": "/badger-grades/static/js/738.8bf93037.chunk.js",
+    "static/js/653.208880d6.chunk.js": "/badger-grades/static/js/653.208880d6.chunk.js",
+    "static/js/923.001830cc.chunk.js": "/badger-grades/static/js/923.001830cc.chunk.js",
+    "static/js/627.dce16540.chunk.js": "/badger-grades/static/js/627.dce16540.chunk.js",
+    "index.html": "/badger-grades/index.html",
+    "main.b93030e8.css.map": "/badger-grades/static/css/main.b93030e8.css.map",
+    "main.a951b437.js.map": "/badger-grades/static/js/main.a951b437.js.map",
+    "453.8753311b.chunk.js.map": "/badger-grades/static/js/453.8753311b.chunk.js.map",
+    "738.8bf93037.chunk.js.map": "/badger-grades/static/js/738.8bf93037.chunk.js.map",
+    "653.208880d6.chunk.js.map": "/badger-grades/static/js/653.208880d6.chunk.js.map",
+    "923.001830cc.chunk.js.map": "/badger-grades/static/js/923.001830cc.chunk.js.map",
+    "627.dce16540.chunk.js.map": "/badger-grades/static/js/627.dce16540.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b93030e8.css",
-    "static/js/main.59bb93e2.js"
+    "static/js/main.a951b437.js"
   ]
 }
