@@ -428,6 +428,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                         <></>
                     )}
                 </div>
+               
             </div>
             <div className="flex flex-col rounded-3xl bg-slate-200 shadow-xl w-[95%] md:w-[48vw] m-3">
                 <Suspense>

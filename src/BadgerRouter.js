@@ -7,11 +7,11 @@ function BadgerRouter(){
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/cuck-the-curve" element={<App/>}>
-					<Route path="/cuck-the-curve/home" element={<></>}/>
-                    <Route path="/cuck-the-curve/course_search" element={<CourseSearchScreen/>}/>
-                    <Route path="/cuck-the-curve/about" element={<About/>}/>
-					<Route path="/cuck-the-curve/report" element={<Report/>}/>
+                <Route path="/badger-grades" element={<App/>}>
+					<Route path="/badger-grades/home" element={<></>}/>
+                    <Route path="/badger-grades/course_search" element={<CourseSearchScreen/>}/>
+                    <Route path="/badger-grades/about" element={<About/>}/>
+					<Route path="/badger-grades/report" element={<Report/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
