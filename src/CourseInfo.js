@@ -560,6 +560,10 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                     <div className="text-2xl font-semibold text-nowrap">Grading Basis</div>
                     {info.grading_basis}
                 </div>
+                <div className="flex flex-col rounded-3xl bg-slate-200 shadow-xl p-3 m-3">
+                    <div className="text-2xl font-semibold text-nowrap"> Course Likes</div>
+                    <div>{info.prerequisites}</div>
+                </div>
             </div>
             <div className="h-10"></div>
         </div>
