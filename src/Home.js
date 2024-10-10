@@ -6,6 +6,9 @@ import { checkmarkCircleOutline, closeOutline } from "ionicons/icons";
 import runViewTransition from "./RunViewTransition";
 import { ConfigProvider, Slider } from "antd";
 import Image from 'react-bootstrap'
+import uwCrest from './UWCREST.png';
+
+
 
 function Home() {
 
@@ -13,8 +16,6 @@ function Home() {
     const [courseSearch, setCourseSearch] = useState("");
     const [showCourseDropdown, setShowCourseDropdown] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
-
-    const dropdownRef = useRef(null);
 
     const response_course = require("./courses.json");
     const courses = Object.values(response_course)
@@ -33,6 +34,11 @@ function Home() {
 
     return (
         <div>
+            <img
+                src={uwCrest}
+                alt="UW Crest"
+                className="absolute top-20 left-2 w-[170px] h-auto z-10"
+            />
 
             <div className="bg-slate-200 min-h-screen flex flex-col items-center justify-start pt-20 px-4 space-y-16">
                 <div className="z-10 text-4xl font-semibold text-center">
