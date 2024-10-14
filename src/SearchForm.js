@@ -14,6 +14,7 @@ function SearchForm({
     setSelected,
     setSort,
 }) {
+    const formRef = useRef(null);
     const [subject, setSubject] = useState("");
     const [subjectSearch, setSubjectSearch] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
@@ -86,9 +87,45 @@ function SearchForm({
 
     const handleCourseChange = (selected) => {
         runViewTransition(() => {
+            setSubject("");
+            setSubjectSearch("");
+            setShowDropdown(false);
             setCourse(selected.title);
             setCourseSearch(selected.name);
             setShowCourseDropdown(false);
+            setKeywords("");
+            setCourseNumRange([0, 999]);
+            setCreditRange([0, 12]);
+            setGPARange([0.0, 4.0]);
+            setBreadths(
+                Object.fromEntries(Object.keys(breadths).map((k) => [k, false]))
+            );
+            setGeneralEducation(
+                Object.fromEntries(
+                    Object.keys(general_ed).map((k) => [k, false])
+                )
+            );
+            setLevels(
+                Object.fromEntries(Object.keys(levels).map((k) => [k, false]))
+            );
+            setCurrent(false);
+            setFilters({});
+            setPageFilters([limit(25)]);
+            setSort("course_num");
+            setNum(1);
+            setCourseInfo(null);
+
+            setTimeout(() => {
+                const form = document.getElementById("form");
+                if (form) {
+                    console.log("Form found by ID, submitting...");
+                    form.dispatchEvent(
+                        new Event("submit", { cancelable: true, bubbles: true })
+                    );
+                } else {
+                    console.error("Form with ID 'form' not found");
+                }
+            }, 0);
         });
     };
     const handleBreadthChange = (key) => {
@@ -375,6 +412,7 @@ function SearchForm({
                             .filter((item, idx) => idx < 100)
                             .map((c, index) => (
                                 <div
+                                    type="submit"
                                     key={index}
                                     className="p-2 my-3 mx-2 cursor-pointer border-b-black rounded-xl duration-150 bg-slate-200 hover:bg-slate-50 shadow-lg active:bg-white shadow-slate-400"
                                     onClick={() => handleCourseChange(c)}
