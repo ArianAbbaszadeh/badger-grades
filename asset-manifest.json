@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/badger-grades/static/css/main.776e0649.css",
-    "main.js": "/badger-grades/static/js/main.8cdc6f7e.js",
+    "main.js": "/badger-grades/static/js/main.1c75bc26.js",
     "static/js/453.8753311b.chunk.js": "/badger-grades/static/js/453.8753311b.chunk.js",
     "static/js/738.8bf93037.chunk.js": "/badger-grades/static/js/738.8bf93037.chunk.js",
     "static/js/653.208880d6.chunk.js": "/badger-grades/static/js/653.208880d6.chunk.js",
@@ -10,7 +10,7 @@
     "static/media/UWCREST.png": "/badger-grades/static/media/UWCREST.3b63ed66903daa2eeee8.png",
     "index.html": "/badger-grades/index.html",
     "main.776e0649.css.map": "/badger-grades/static/css/main.776e0649.css.map",
-    "main.8cdc6f7e.js.map": "/badger-grades/static/js/main.8cdc6f7e.js.map",
+    "main.1c75bc26.js.map": "/badger-grades/static/js/main.1c75bc26.js.map",
     "453.8753311b.chunk.js.map": "/badger-grades/static/js/453.8753311b.chunk.js.map",
     "738.8bf93037.chunk.js.map": "/badger-grades/static/js/738.8bf93037.chunk.js.map",
     "653.208880d6.chunk.js.map": "/badger-grades/static/js/653.208880d6.chunk.js.map",
@@ -19,6 +19,6 @@
   },
   "entrypoints": [
     "static/css/main.776e0649.css",
-    "static/js/main.8cdc6f7e.js"
+    "static/js/main.1c75bc26.js"
   ]
 }
