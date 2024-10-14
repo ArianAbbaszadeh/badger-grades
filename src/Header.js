@@ -15,7 +15,7 @@ function Header() {
         <nav className="group p-3 h-[8vh] min-h-15 bg-slate-50 border-b-2 border-slate-200 hover:bg-wisco-700 hover:text-slate-50 duration-300 md:flex md:items-center md:justify-between">
             <div className="flex justify-between items-center">
                 <span className="text-3xl font-semibold font-[Poppins] cursor-pointer group-hover:text-slate-50 text-wisco-700 duration-200">
-                    <Link to="/badger-grades/home">Badger Grades</Link>
+                    <Link to="/home">Badger Grades</Link>
                 </span>
                 <span className="text-3xl cursor-pointer md:hidden mx-2 block">
                     <IonIcon
@@ -35,7 +35,7 @@ function Header() {
                 }`}
             >
                 <li className="mx-4 my-6 md:my-0">
-                    <Link to="/badger-grades/home">
+                    <Link to="/home">
                         <div
                             className="text-xl font-medium hover:font-black hover:duration-200"
                             href="#"
@@ -45,7 +45,7 @@ function Header() {
                     </Link>
                 </li>
                 <li className="mx-4 my-6 md:my-0">
-                    <Link to="/badger-grades/course_search">
+                    <Link to="/course_search">
                         <div
                             className="text-xl font-medium hover:font-black hover:duration-200"
                             href="#"
@@ -55,7 +55,7 @@ function Header() {
                     </Link>
                 </li>
                 <li className="mx-4 my-6 md:my-0">
-                    <Link to="/badger-grades/about">
+                    <Link to="/about">
                         <div
                             className="text-xl font-medium hover:font-black hover:duration-200"
                             href="#"
@@ -65,7 +65,7 @@ function Header() {
                     </Link>
                 </li>
                 <li className="mx-4 my-6 md:my-0">
-                    <Link to="/badger-grades/report">
+                    <Link to="/report">
                         <div
                             className="text-xl font-medium hover:font-black hover:duration-200"
                             href="#"

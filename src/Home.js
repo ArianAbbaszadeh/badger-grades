@@ -51,7 +51,7 @@ function Home() {
                         Start by searching for a Course
                     </label>
                 </div>
-                <Link to="/badger-grades/course_search">
+                <Link to="/course_search">
                     <div className="bg-wisco-700 text-slate-50 text-xl font-medium py-3 px-6 rounded hover:bg-wisco-700 transition duration-300">
                         Go to Course Search
                     </div>
