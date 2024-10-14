@@ -7,6 +7,7 @@ import runViewTransition from "./RunViewTransition";
 import { ConfigProvider, Slider } from "antd";
 import Image from "react-bootstrap";
 import uwCrest from "./UWCREST.png";
+import { Link } from "react-router-dom";
 
 function Home() {
     const [course, setCourse] = useState("");
@@ -31,27 +32,32 @@ function Home() {
     };
 
     return (
-        <div>
+        <div className="bg-slate-200 h-[92vh] font-[Poppins]">
             <img
                 src={uwCrest}
                 alt="UW Crest"
-                className="absolute top-20 left-2 h-[170px] w-auto z-10"
+                className="top-20 left-2 h-[170px] w-auto m-auto"
             />
 
-            <div className="bg-slate-200 min-h-screen flex flex-col items-center justify-start pt-[100px] px-4 space-y-16">
-                <div className="z-10 text-4xl font-semibold text-center">
+            <div className="bg-slate-200 flex flex-col items-center justify-start p-2 space-y-5">
+                <div className="text-4xl font-semibold text-center">
                     Welcome to Badger Grades
                 </div>
 
                 <div className="w-full max-w-2xl">
                     <label
                         htmlFor="course-search"
-                        className="block text-xl font-medium leading-6 text-gray-900 mb-4 text-center"
+                        className="block text-xl font-medium leading-6 text-gray-900 text-center"
                     >
                         Start by searching for a Course
                     </label>
                 </div>
-                <div className="relative w-full max-w-2xl bg-slate-300 rounded-lg shadow-lg shadow-slate-500">
+                <Link to="/badger-grades/course_search">
+                    <div className="bg-[#C5050C] text-slate-50 text-xl font-medium py-3 px-6 rounded hover:bg-[#A8040A] transition duration-300">
+                        Go to Course Search
+                    </div>
+                </Link>
+                {/**<div className="relative w-full max-w-2xl bg-slate-300 rounded-lg shadow-lg shadow-slate-500">
                     <div className="flex justify-around h-[100%] items-center w-full">
                         <input
                             type="text"
@@ -91,7 +97,7 @@ function Home() {
                         )}
                     </div>
                     {showCourseDropdown && (
-                        <div className="max-h-60 overflow-y-auto rounded-2xl scrollbar-hide">
+                        <div className="max-h-[40vh] overflow-y-auto rounded-2xl scrollbar-hide">
                             {filteredCourses
                                 .filter((item, idx) => idx < 100)
                                 .map((c, index) => (
@@ -113,7 +119,7 @@ function Home() {
                                 ))}
                         </div>
                     )}
-                </div>
+                </div> **/}
             </div>
         </div>
     );
