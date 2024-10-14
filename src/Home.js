@@ -33,13 +33,12 @@ function Home() {
 
     return (
         <div className="bg-slate-200 h-[92vh] font-[Poppins]">
-            <img
-                src={uwCrest}
-                alt="UW Crest"
-                className="top-20 left-2 h-[170px] w-auto m-auto"
-            />
-
-            <div className="bg-slate-200 flex flex-col items-center justify-start p-2 space-y-5">
+            <div className="bg-slate-200 h-full flex flex-col items-center justify-center p-2 space-y-5">
+                <img
+                    src={uwCrest}
+                    alt="UW Crest"
+                    className="left-2 h-[170px] w-auto"
+                />
                 <div className="text-4xl font-semibold text-center">
                     Welcome to Badger Grades
                 </div>
@@ -53,7 +52,7 @@ function Home() {
                     </label>
                 </div>
                 <Link to="/badger-grades/course_search">
-                    <div className="bg-[#C5050C] text-slate-50 text-xl font-medium py-3 px-6 rounded hover:bg-[#A8040A] transition duration-300">
+                    <div className="bg-wisco-700 text-slate-50 text-xl font-medium py-3 px-6 rounded hover:bg-wisco-700 transition duration-300">
                         Go to Course Search
                     </div>
                 </Link>

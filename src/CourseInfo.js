@@ -180,10 +180,8 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                             );
                         }
                     );
-                    runViewTransition(() => {
-                        setMadLoading(false);
-                        setMadgrades(temp);
-                    });
+                    setMadLoading(false);
+                    setMadgrades(temp);
                 } catch (error) {
                     console.error(
                         "Error processing grade data:",
@@ -295,7 +293,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
             {
                 label: ["Cumulative"],
                 data: values.map((value) => 100 * (value / total)),
-                backgroundColor: "#7b62ff",
+                backgroundColor: "#c5050c",
             },
         ],
     };
@@ -397,7 +395,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
     };
 
     return madLoading ? (
-        <div className="text-center flex items-center">Loading</div>
+        <div className="text-center flex items-center"></div>
     ) : (
         <div className="flex flex-wrap">
             <div className="flex-col">
@@ -410,14 +408,14 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                             : courseInfo.title}
                     </div>
                 </div>
-                <div className="text-slate-600 text-[1.25rem] font-medium m-1 flex justify-start align-middle">
+                <div className="text-slate-600 text-[1.25rem] font-medium m-1 flex justify-start items-center">
                     <div className="p-1 mr-1">
                         {info.course_designation
                             ? info.course_designation
                             : courseInfo.name}
                     </div>
                     {courseInfo.currently_taught ? (
-                        <div className="text-white flex bg-green-600 rounded-full p-1 pr-3 text-lg">
+                        <div className="text-slate-50 flex bg-wisco-700 rounded-full p-2 pr-3 text-lg">
                             <IonIcon
                                 className="size-7 mr-1"
                                 icon={checkmarkCircleOutline}
@@ -428,7 +426,6 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                         <></>
                     )}
                 </div>
-               
             </div>
             <div className="flex flex-col rounded-3xl bg-slate-200 shadow-xl w-[95%] md:w-[48vw] m-3">
                 <Suspense>
@@ -471,7 +468,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                                         className={`max-w-96 overflow-x-scroll flex flex-row flex-nowrap scrollbar-hide rounded-full`}
                                     >
                                         {offering != null &&
-                                        offering["term"] === term && (
+                                            offering["term"] === term &&
                                             Object.entries(
                                                 term_info.instructors
                                             ).map(([inst_name, inst_info]) => (
@@ -514,8 +511,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                                                 >
                                                     {inst_name}
                                                 </div>
-                                            ))
-                                        )}
+                                            ))}
                                     </div>
                                     <div
                                         className={`p-2 pl-0 m-1 ${
@@ -538,8 +534,15 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                             ]
                         )}
                     </div>
+
                     <div className="p-5">
-                        <Bar data={data} options={options} />
+                        {courseInfo.gpa > 0 ? (
+                            <Bar data={data} options={options} />
+                        ) : (
+                            <div className="w-full text-center font-semibold text-xl">
+                                No Letter Grades available for this course
+                            </div>
+                        )}
                     </div>
                 </Suspense>
             </div>
@@ -549,19 +552,30 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
             </div>
             <div className="flex flex-wrap">
                 <div className="flex flex-col rounded-3xl bg-slate-200 shadow-xl p-3 m-3">
-                    <div className="text-2xl font-semibold text-nowrap"> Enrollment Prerequisites </div>
+                    <div className="text-2xl font-semibold text-nowrap">
+                        {" "}
+                        Enrollment Prerequisites{" "}
+                    </div>
                     <div>{info.prerequisites}</div>
                 </div>
                 <div className="flex-col rounded-3xl bg-slate-200 shadow-xl p-3 m-3">
-                    <div className="text-2xl font-semibold text-nowrap"> Typically Offered</div>
+                    <div className="text-2xl font-semibold text-nowrap">
+                        {" "}
+                        Typically Offered
+                    </div>
                     {info.typically_offered}
                 </div>
                 <div className="flex-col rounded-3xl bg-slate-200  shadow-xl p-3 m-3">
-                    <div className="text-2xl font-semibold text-nowrap">Grading Basis</div>
+                    <div className="text-2xl font-semibold text-nowrap">
+                        Grading Basis
+                    </div>
                     {info.grading_basis}
                 </div>
                 <div className="flex flex-col rounded-3xl bg-slate-200 shadow-xl p-3 m-3">
-                    <div className="text-2xl font-semibold text-nowrap"> Course Likes</div>
+                    <div className="text-2xl font-semibold text-nowrap">
+                        {" "}
+                        Course Likes
+                    </div>
                     <div>{info.prerequisites}</div>
                 </div>
             </div>

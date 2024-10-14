@@ -34,37 +34,48 @@ function CourseSearchScreen() {
     const [courseInfo, setCourseInfo] = useState(null);
     const [madgrades, setMadgrades] = useState(null);
     const [selected, setSelected] = useState(0);
-    const [desktop, setDesktop] = useState(window.innerWidth / window.innerHeight > 1);
+    const [desktop, setDesktop] = useState(
+        window.innerWidth / window.innerHeight > 1
+    );
 
     const fetchCourses = useCallback(async () => {
         console.log("fetchCourses called with filters:", filters);
         setIsLoading(true);
-        if(selected === 2) setSelected(1);
+        if (selected === 2) setSelected(1);
         try {
             const courseRef = collection(db, "courses");
             const constraints = [];
             for (const [field, val] of Object.entries(filters)) {
                 if (val != null) {
-                    if(field === "course_num" || field === "min_cred" || field == "max_cred" || field == "gpa"){
-                        constraints.push(where(field, '>=', val[0]));
-                        constraints.push(where(field, '<=', val[1]));
-                    } else if (field === "ethnic_studies" || field === "breadths" || field === "level" || field === 'subject_abbr' || field === "currently_taught" || field === "title") {
+                    if (
+                        field === "course_num" ||
+                        field === "min_cred" ||
+                        field === "max_cred" ||
+                        field === "gpa"
+                    ) {
+                        constraints.push(where(field, ">=", val[0]));
+                        constraints.push(where(field, "<=", val[1]));
+                    } else if (
+                        field === "ethnic_studies" ||
+                        field === "breadths" ||
+                        field === "level" ||
+                        field === "subject_abbr" ||
+                        field === "currently_taught" ||
+                        field === "title"
+                    ) {
                         constraints.push(where(field, "==", val));
-                        console.log(`Adding constraint: ${field} == ${val}`);
+                        //console.log(`Adding constraint: ${field} == ${val}`);
                     } else if (Array.isArray(val) && val.length > 0) {
-                        if(field === 'keywords'){
-                            constraints.push(where(field, 'array-contains-any', val));
-                            console.log(`Adding constraint: ${field} array-contains-any ${val}`);
-                        }else{
-                            constraints.push(where(field, "in", val));
-                            console.log(`Adding constraint: ${field} in ${val}`);
-                        }
+                        constraints.push(where(field, "in", val));
+                        //console.log(`Adding constraint: ${field} in ${val}`);
                     }
                 }
             }
 
-            const sort_call = []
-            sort === "gpa" ? sort_call.push(orderBy(sort, "desc")) : sort_call.push(orderBy(sort))
+            const sort_call = [];
+            sort === "gpa"
+                ? sort_call.push(orderBy(sort, "desc"))
+                : sort_call.push(orderBy(sort));
             const q = query(
                 courseRef,
                 ...constraints,
@@ -72,18 +83,22 @@ function CourseSearchScreen() {
                 ...pageFilters
             );
 
-            console.log("Executing Firestore query");
+            //console.log("Executing Firestore query");
             const querySnapshot = await getDocs(q);
-            console.log(`Query returned ${querySnapshot.docs.length} results`);
+            //console.log(`Query returned ${querySnapshot.docs.length} results`);
 
             setHead(querySnapshot.docs[0]);
             setTail(querySnapshot.docs[querySnapshot.docs.length - 1]);
-            
-            const courseData = querySnapshot.docs.map(doc => {
+
+            const courseData = querySnapshot.docs.map((doc) => {
                 const data = doc.data();
-                return { id: doc.id, name: `${data.subject_abbr} ${data.course_num}`, ...data };
+                return {
+                    id: doc.id,
+                    name: `${data.subject_abbr} ${data.course_num}`,
+                    ...data,
+                };
             });
-            
+
             console.log(`Setting courses with ${courseData.length} items`);
             runViewTransition(() => {
                 setCourses(courseData);
@@ -93,7 +108,7 @@ function CourseSearchScreen() {
         } finally {
             runViewTransition(() => {
                 setIsLoading(false);
-            })
+            });
             const scroller = document.getElementById("scroller");
             if (scroller) {
                 console.log("Scrolling to top");
@@ -118,12 +133,12 @@ function CourseSearchScreen() {
         return () => {
             console.log("Cleaning up resize event listener");
             window.removeEventListener("resize", handleResize);
-        }
+        };
     }, [fetchCourses, desktop]);
 
     const renderMobileView = () => {
         console.log(`Rendering mobile view with selected: ${selected}`);
-        switch(selected) {
+        switch (selected) {
             case 0:
                 return (
                     <SearchForm
@@ -139,15 +154,16 @@ function CourseSearchScreen() {
                 return (
                     <div className="h-[92vh] shadow-2xl min-w-[324px] flex-col flex bg-slate-200">
                         <div className="h-[8%] min-h-8 text-center place-items-center bg-transparent">
-                            <div className="flex flex-row justify-between p-[2vh]">
+                            <div className="flex flex-row justify-between p-2">
                                 <IonIcon
                                     className="size-10 cursor-pointer"
                                     icon={arrowBackOutline}
                                     onClick={() => {
-                                        console.log("Back button clicked, setting selected to 0");
+                                        console.log(
+                                            "Back button clicked, setting selected to 0"
+                                        );
                                         runViewTransition(() => {
                                             setSelected(0);
-                                            
                                         });
                                     }}
                                 />
@@ -155,21 +171,21 @@ function CourseSearchScreen() {
                                     <div className="text-[26px] font-semibold">
                                         Courses
                                     </div>
-                                    <Sorter setSort={setSort} sort={sort}/>
+                                    <Sorter setSort={setSort} sort={sort} />
                                 </div>
                             </div>
                         </div>
-                        { isLoading ? 
-                        <CSLoader message="Loading"/>
-                        : 
-                        <CourseSearch
-                            courses={courses}
-                            courseInfo={courseInfo}
-                            setCourseInfo={setCourseInfo}
-                            setSelected={setSelected}
-                            setInfo={setInfo}
-                        />
-                        }
+                        {isLoading ? (
+                            <CSLoader message="Loading" />
+                        ) : (
+                            <CourseSearch
+                                courses={courses}
+                                courseInfo={courseInfo}
+                                setCourseInfo={setCourseInfo}
+                                setSelected={setSelected}
+                                setInfo={setInfo}
+                            />
+                        )}
                         <Pagination
                             disabled={courses.length < PAGE_SIZE}
                             head={head}
@@ -184,12 +200,14 @@ function CourseSearchScreen() {
             case 2:
                 return (
                     <div className="h-[92vh] overflow-y-scroll">
-                        <div className="rounded-full bg-slate-200 hover:bg-slate-300 duration-100 inline-block size-10 m-2" >
+                        <div className="rounded-full bg-slate-200 hover:bg-slate-300 duration-100 inline-block size-10 m-2">
                             <IonIcon
                                 className="size-10 cursor-pointer"
                                 icon={arrowBackOutline}
                                 onClick={() => {
-                                    console.log("Back button clicked, setting selected to 1");
+                                    console.log(
+                                        "Back button clicked, setting selected to 1"
+                                    );
                                     runViewTransition(() => {
                                         setCourseInfo(null);
                                         setSelected(1);
@@ -229,25 +247,35 @@ function CourseSearchScreen() {
                                 setSort={setSort}
                             />
                         </div>
-                        <Suspense fallback={<div className="bg-cyan-950">Loading...</div>}>
-                            <div className="rounded-t-3xl shadow-slate-500 shadow-2xl min-w-[324px] w-[60%] flex-col flex bg-slate-200 mt-3">
+                        <Suspense
+                            fallback={
+                                <div className="bg-cyan-950">Loading...</div>
+                            }
+                        >
+                            <div className="rounded-t-3xl shadow-slate-400 shadow-2xl min-w-[324px] w-[60%] flex-col flex bg-slate-300 mt-3">
                                 <div className="h-[8%] min-h-8 text-center bg-transparent before">
                                     <div className="flex flex-row justify-between items-start mt-[1vh] mx-4 h-[100%] bg-transparent">
-                                        <div className="text-2xl font-semibold">Courses</div>
-                                        <Sorter className="flex items-end" setSort={setSort} sort={sort}/>
+                                        <div className="text-2xl font-semibold">
+                                            Courses
+                                        </div>
+                                        <Sorter
+                                            className="flex items-end"
+                                            setSort={setSort}
+                                            sort={sort}
+                                        />
                                     </div>
                                 </div>
-                        { isLoading ? 
-                            <CSLoader message="Loading"/>
-                        : 
-                        <CourseSearch
-                            courses={courses}
-                            courseInfo={courseInfo}
-                            setCourseInfo={setCourseInfo}
-                            setSelected={setSelected}
-                            setInfo={setInfo}
-                        />
-                        }
+                                {isLoading ? (
+                                    <CSLoader message="Loading" />
+                                ) : (
+                                    <CourseSearch
+                                        courses={courses}
+                                        courseInfo={courseInfo}
+                                        setCourseInfo={setCourseInfo}
+                                        setSelected={setSelected}
+                                        setInfo={setInfo}
+                                    />
+                                )}
                                 <Pagination
                                     disabled={courses.length < PAGE_SIZE}
                                     head={head}
@@ -263,16 +291,16 @@ function CourseSearchScreen() {
                     <div className="h-[92vh] flex-1 p-4 w-[50%] overflow-y-scroll scrollbar-hide">
                         {selected === 2 ? (
                             <div>
-                                <div className="rounded-full bg-slate-200 hover:bg-slate-300 duration-100 inline-block size-10" >
+                                <div className="rounded-full bg-slate-200 hover:bg-slate-300 duration-100 inline-block size-10">
                                     <IonIcon
                                         className="size-10 cursor-pointer"
                                         icon={arrowBackOutline}
                                         onClick={() => {
-                                            console.log("Back button clicked, setting selected to 1");
-                                            runViewTransition(() => {
-                                                setCourseInfo(null);
-                                                setSelected(1);
-                                            });
+                                            console.log(
+                                                "Back button clicked, setting selected to 1"
+                                            );
+                                            setCourseInfo(null);
+                                            setSelected(1);
                                         }}
                                     />
                                 </div>
@@ -282,15 +310,15 @@ function CourseSearchScreen() {
                                     madgrades={madgrades}
                                     info={info}
                                     setInfo={setInfo}
-                                />                       
+                                />
                             </div>
-                        ) : (<></>)}
-                    </div>                 
+                        ) : (
+                            <></>
+                        )}
+                    </div>
                 </div>
             ) : (
-                <div className="h-[92vh]">
-                    {renderMobileView()}
-                </div>
+                <div className="h-[92vh]">{renderMobileView()}</div>
             )}
         </div>
     );

@@ -2,45 +2,59 @@ import React from "react";
 import "./App.css";
 import "./courses.css";
 import { IonIcon } from "@ionic/react";
-import {
-    checkmarkCircleOutline,
-} from "ionicons/icons";
+import { checkmarkCircleOutline } from "ionicons/icons";
 import runViewTransition from "./RunViewTransition";
-function CourseSearch({ courses, courseInfo, setCourseInfo, setSelected, setInfo }) {
-
+function CourseSearch({
+    courses,
+    courseInfo,
+    setCourseInfo,
+    setSelected,
+    setInfo,
+}) {
     if (!courses || courses.length === 0) {
         console.log("No courses found");
         return (
             <div className="h-[84%] flex items-center justify-around p-3 text-center">
                 No courses found. Try adjusting your search criteria.
-            </div>);
+            </div>
+        );
     }
     console.log("Rendering CourseSearch with", courses.length, "courses");
 
-    return (  
-        <div id="scroller" className="overflow-y-scroll h-[84%] scrollbar-hide bg-gradient-to-br from-violet-200 via-sky-200 to-indigo-200 rounded-2xl shadow-inner shadow-fuchsia-200 rounded-b-none">
+    return (
+        <div
+            id="scroller"
+            className="overflow-y-scroll h-[84%] scrollbar-hide bg-slate-200 rounded-2xl shadow-inner rounded-b-none"
+        >
             {courses.map((course) => (
                 <div
                     key={course.id}
-                    className={`p-3 m-3 bg-sky-100 active:scale-[99%] rounded-3xl ${
+                    className={`p-3 m-3  active:scale-[99%] bg-slate-300 rounded-3xl ${
                         courseInfo === course
-                            ? "bg-gradient-to-bl from-fuchsia-200 via-blue-300 to-indigo-300 shadow-2xl shadow-violet-400 text-wrap"
-                            : "text-nowrap"
-                    } duration-200 cursor-pointer shadow-lg hover:bg-indigo-200 overflow-hidden hover:text-wrap`}
+                            ? "border-4 border-wisco-700 text-wrap"
+                            : " text-nowrap"
+                    } duration-200 cursor-pointer shadow-lg hover:bg-slate-200 overflow-hidden hover:text-wrap`}
                     onClick={() => {
-                            console.log("Course clicked:", course.name);
-                            runViewTransition(() => {
-                                setInfo({});
-                                setSelected(2);
-                                setCourseInfo(course);
-                                console.log("CourseInfo and selected state updated");
-                            });
+                        //console.log("Course clicked:", course.name);
+                        //console.log("CourseInfo and selected state updated");
+                        setCourseInfo(course);
+                        setInfo({});
+                        setSelected(2);
                     }}
                 >
                     <div className="flex justify-between">
                         <div className="text-xl flex font-semibold items-center">
-                            {course.name} 
-                            {course.currently_taught && (<IonIcon icon={checkmarkCircleOutline} className={`pl-[2px] text-xl ${courseInfo === course ? "text-green-600" : "text-green-500"}  `}/>)}
+                            {course.name}
+                            {course.currently_taught && (
+                                <IonIcon
+                                    icon={checkmarkCircleOutline}
+                                    className={`pl-[2px] text-xl ${
+                                        courseInfo === course
+                                            ? "text-wisco-800"
+                                            : "text-wisco-700"
+                                    }  `}
+                                />
+                            )}
                         </div>
                         <div>
                             <b className="font-semibold">GPA: </b>{" "}
