@@ -32,7 +32,7 @@ function Home() {
     };
 
     return (
-        <div className="bg-slate-200 h-[92vh] font-[Poppins]">
+        <div className="bg-slate-200 h-[92vh] ">
             <div className="bg-slate-200 h-full flex flex-col items-center justify-center p-2 space-y-5">
                 <img
                     src={uwCrest}
@@ -52,10 +52,14 @@ function Home() {
                     </label>
                 </div>
                 <Link to="/course_search">
-                    <div className="bg-wisco-700 text-slate-50 text-xl font-medium py-3 px-6 rounded hover:bg-wisco-700 transition duration-300">
+                    <div className="bg-wisco-700 text-slate-50 text-xl font-medium py-3 px-6 rounded hover:bg-wisco-600 transition duration-300">
                         Go to Course Search
                     </div>
                 </Link>
+                <div className="fixed bottom-2 text-center text-sm text-slate-500 font-medium">
+                    <div>Not affiliated with UW Madison</div>
+                    <div>Updated Fall 2023</div>
+                </div>
                 {/**<div className="relative w-full max-w-2xl bg-slate-300 rounded-lg shadow-lg shadow-slate-500">
                     <div className="flex justify-around h-[100%] items-center w-full">
                         <input

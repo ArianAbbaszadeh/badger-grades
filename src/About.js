@@ -1,7 +1,7 @@
 function About() {
     return (
         <div className="bg-slate-200 h-[92vh] flex justify-around items-center">
-            <div className="z-10 text-3xl font-semibold">
+            <div className="z-10 text-3xl font-semibold max-w-[90%] text-center">
                 I made this website because I was getting bad grades
             </div>
             <div className="w-3/5 h-2/5 absolute bg-fuchsia-300 top-50 left-10 blur-2xl rounded-full"></div>

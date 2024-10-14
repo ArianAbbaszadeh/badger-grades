@@ -415,12 +415,12 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                             : courseInfo.name}
                     </div>
                     {courseInfo.currently_taught ? (
-                        <div className="text-slate-50 flex bg-wisco-700 rounded-full p-2 pr-3 text-lg">
+                        <div className="text-slate-50 flex bg-wisco-700 px-2 py-1 rounded-full text-lg">
                             <IonIcon
-                                className="size-7 mr-1"
+                                className="size-7"
                                 icon={checkmarkCircleOutline}
                             />
-                            <div>Currently Taught</div>
+                            <div className="px-1">Currently Taught</div>
                         </div>
                     ) : (
                         <></>

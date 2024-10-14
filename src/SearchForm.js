@@ -109,21 +109,17 @@ function SearchForm({
                 Object.fromEntries(Object.keys(levels).map((k) => [k, false]))
             );
             setCurrent(false);
-            setFilters({});
-            setPageFilters([limit(25)]);
             setSort("course_num");
-            setNum(1);
-            setCourseInfo(null);
 
             setTimeout(() => {
                 const form = document.getElementById("form");
                 if (form) {
-                    console.log("Form found by ID, submitting...");
                     form.dispatchEvent(
-                        new Event("submit", { cancelable: true, bubbles: true })
+                        new Event("submit", {
+                            cancelable: false,
+                            bubbles: true,
+                        })
                     );
-                } else {
-                    console.error("Form with ID 'form' not found");
                 }
             }, 0);
         });
@@ -415,7 +411,10 @@ function SearchForm({
                                     type="submit"
                                     key={index}
                                     className="p-2 my-3 mx-2 cursor-pointer border-b-black rounded-xl duration-150 bg-slate-200 hover:bg-slate-50 shadow-lg active:bg-white shadow-slate-400"
-                                    onClick={() => handleCourseChange(c)}
+                                    onClick={() => {
+                                        handleCourseChange(c);
+                                        setSelected(1);
+                                    }}
                                 >
                                     <div className="text-slate-700 leading-tight text-lg font-medium ">
                                         {c.name}

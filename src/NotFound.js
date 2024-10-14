@@ -14,9 +14,9 @@ const NotFound = () => {
                 </p>
             </div>
 
-            <Link to="/">
-                <div className="bg-wisco-700 text-slate-50 text-xl font-medium py-3 px-6 rounded hover:bg-wisco-700 transition duration-300">
-                    Go to Homepage
+            <Link to="/home">
+                <div className="bg-wisco-700 text-slate-50 text-xl font-medium py-3 px-6 rounded hover:bg-wisco-600 transition duration-300">
+                    Back to Safety
                 </div>
             </Link>
         </div>

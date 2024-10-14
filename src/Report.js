@@ -32,7 +32,7 @@ function Report() {
     return (
         <div className="bg-slate-200 h-[92vh] flex flex-col justify-center items-center font-[Poppins]">
             <h1 className="font-semibold text-3xl m-3">Report A Bug</h1>
-            <div className="flex flex-row w-1/2 text-center items-center">
+            <div className="flex flex-row w-3/4 text-center items-center">
                 <input
                     id="report-content"
                     type="text"
