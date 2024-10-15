@@ -333,7 +333,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
         data.datasets.push({
             label: [`${offering["term"]} Term`],
             data: values2.map((value) => 100 * (value / offering_total)),
-            backgroundColor: " #f43f5e ",
+            backgroundColor: "#6366f1",
         });
     }
 
@@ -385,6 +385,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
     }
     const options = {
         yAxisID: "Students (%)",
+        maintainAspectRatio: false,
         scales: {
             y: {
                 min: 0,
@@ -397,8 +398,8 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
     return madLoading ? (
         <div className="text-center flex items-center"></div>
     ) : (
-        <div className="flex flex-wrap">
-            <div className="flex-col">
+        <div>
+            <div className="flex flex-col">
                 <div className="text-[28px] font-semibold m-1">
                     <div>
                         {Object.keys(info).length > 0
@@ -427,7 +428,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                     )}
                 </div>
             </div>
-            <div className="flex flex-col rounded-3xl bg-slate-200 shadow-xl w-[95%] md:w-[48vw] m-3">
+            <div className="flex flex-col rounded-3xl bg-slate-200 shadow-xl max-w m-3">
                 <Suspense>
                     <div
                         ref={scrollRef}
@@ -439,7 +440,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                                     className={`flextext-center align-middle justify-between mt-5 mb-2 m-1 p-1 pt-[6px] transition-all duration-75 ${
                                         offering != null &&
                                         offering.term === term
-                                            ? "hover:bg-rose-600 bg-rose-500 min-w-70"
+                                            ? "hover:bg-indigo-400 bg-indigo-500 min-w-70"
                                             : "hover:bg-slate-500 bg-slate-400"
                                     } text-white rounded-full shadow-md text-nowrap flex flex-row min-h-12 cursor-pointer`}
                                     onClick={() => {
@@ -477,7 +478,7 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                                                         instructor != null &&
                                                         instructor.name ===
                                                             inst_name
-                                                            ? "bg-sky-500 hover:bg-sky-600 text-white"
+                                                            ? "bg-sky-500 hover:bg-sky-400 text-white"
                                                             : "bg-slate-400 hover:bg-slate-500 "
                                                     }duration-75 p-2 pt-[10px] m-1 font-semibold rounded-full text-md active:scale-95 cursor-pointer`}
                                                     onClick={(e) => {
@@ -535,9 +536,11 @@ function CourseInfo({ courseInfo, setMadgrades, madgrades, info, setInfo }) {
                         )}
                     </div>
 
-                    <div className="p-5">
+                    <div className="p-5 max-w-full">
                         {courseInfo.gpa > 0 ? (
-                            <Bar data={data} options={options} />
+                            <div className="h-72">
+                                <Bar data={data} options={options} />
+                            </div>
                         ) : (
                             <div className="w-full text-center font-semibold text-xl">
                                 No Letter Grades available for this course

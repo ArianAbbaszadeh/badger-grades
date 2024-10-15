@@ -122,7 +122,7 @@ function CourseSearchScreen() {
         fetchCourses();
 
         const handleResize = () => {
-            const newDesktop = window.innerWidth / window.innerHeight > 1;
+            const newDesktop = window.innerWidth / window.innerHeight > 1.0;
             if (newDesktop !== desktop) {
                 console.log(`Window resized, setting desktop to ${newDesktop}`);
                 setDesktop(newDesktop);
@@ -235,8 +235,8 @@ function CourseSearchScreen() {
         <div className="font-[Poppins] text-slate-800 bg-slate-50 box min-w-[100vw] cursor-default">
             {desktop ? (
                 <div className="flex flex-row">
-                    <div className="flex flex-row flex-1 h-[92vh] w-[40%]">
-                        <div className="flex flex-col justify-start min-w-[324px] w-[50%] mr-2">
+                    <div className="flex flex-row flex-1 h-[92vh] w-full">
+                        <div className="flex flex-col justify-start min-w-64 w-[25%] mr-2">
                             <SearchForm
                                 setFilters={setFilters}
                                 setNum={setNum}
@@ -252,17 +252,18 @@ function CourseSearchScreen() {
                                 <div className="bg-cyan-950">Loading...</div>
                             }
                         >
-                            <div className="rounded-t-3xl shadow-slate-400 shadow-2xl min-w-[324px] w-[60%] flex-col flex bg-slate-300 mt-3">
-                                <div className="h-[8%] min-h-8 text-center bg-transparent before">
-                                    <div className="flex flex-row justify-between items-start mt-[1vh] mx-4 h-[100%] bg-transparent">
-                                        <div className="text-2xl font-semibold">
+                            <div className="rounded-t-3xl shadow-slate-400 shadow-2xl min-w-72 w-[25%] flex-col flex bg-slate-300 mt-3">
+                                <div className="h-[8%] min-h-8 text-center bg-transparent">
+                                    <div className="flex flex-row justify-between mt-1 mx-4 h-[100%]">
+                                        <div className="text-2xl font-semibold mt-1">
                                             Courses
                                         </div>
-                                        <Sorter
-                                            className="flex items-end"
-                                            setSort={setSort}
-                                            sort={sort}
-                                        />
+                                        <div className="items-end">
+                                            <Sorter
+                                                setSort={setSort}
+                                                sort={sort}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 {isLoading ? (
@@ -287,34 +288,34 @@ function CourseSearchScreen() {
                                 />
                             </div>
                         </Suspense>
-                    </div>
-                    <div className="h-[92vh] flex-1 p-4 w-[50%] overflow-y-scroll scrollbar-hide">
-                        {selected === 2 ? (
-                            <div>
-                                <div className="rounded-full bg-slate-200 hover:bg-slate-300 duration-100 inline-block size-10">
-                                    <IonIcon
-                                        className="size-10 cursor-pointer"
-                                        icon={arrowBackOutline}
-                                        onClick={() => {
-                                            console.log(
-                                                "Back button clicked, setting selected to 1"
-                                            );
-                                            setCourseInfo(null);
-                                            setSelected(1);
-                                        }}
+                        <div className="h-[92vh] w-[50%] p-4 overflow-y-scroll scrollbar-hide">
+                            {selected === 2 ? (
+                                <div className="flex flex-col max-w-[50vw] min-w-80">
+                                    <div className="rounded-full bg-slate-200 hover:bg-slate-300 duration-100 inline-block size-10">
+                                        <IonIcon
+                                            className="size-10 cursor-pointer"
+                                            icon={arrowBackOutline}
+                                            onClick={() => {
+                                                console.log(
+                                                    "Back button clicked, setting selected to 1"
+                                                );
+                                                setCourseInfo(null);
+                                                setSelected(1);
+                                            }}
+                                        />
+                                    </div>
+                                    <CourseInfo
+                                        courseInfo={courseInfo}
+                                        setMadgrades={setMadgrades}
+                                        madgrades={madgrades}
+                                        info={info}
+                                        setInfo={setInfo}
                                     />
                                 </div>
-                                <CourseInfo
-                                    courseInfo={courseInfo}
-                                    setMadgrades={setMadgrades}
-                                    madgrades={madgrades}
-                                    info={info}
-                                    setInfo={setInfo}
-                                />
-                            </div>
-                        ) : (
-                            <></>
-                        )}
+                            ) : (
+                                <></>
+                            )}
+                        </div>
                     </div>
                 </div>
             ) : (

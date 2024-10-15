@@ -1,8 +1,8 @@
 {
   "name": "badger-grades",
   "version": "0.1.0",
-  "private": true,
-  "homepage": "http://arianabbaszadeh.github.io/badger-grades/#",
+  "private": false,
+  "homepage": "https://www.badgergrades.com/#",
   "dependencies": {
     "@craco/craco": "^7.1.0",
     "@ionic/react": "^8.2.6",

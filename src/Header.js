@@ -41,8 +41,10 @@ function Header() {
             </div>
 
             <ul
-                className={`md:flex items md:items-center bg-inherit z-10 md:z-auto md:static absolute w-full left-0 md:w-auto md:py-0 py-4 md:pl-0 pl-7 md:opacity-100 ${
-                    icon === 0 ? "top-[-400px]" : "top-[8vh]"
+                className={`group md:flex items md:items-center z-10 md:z-auto md:static absolute w-full left-0 md:w-auto md:py-0 py-4 md:pl-0 pl-7 md:opacity-100 ${
+                    icon === 0
+                        ? "top-[-400px]"
+                        : "top-[8vh] bg-slate-50 group-hover:bg-wisco-700 duration-300"
                 }`}
             >
                 <li className="mx-4 my-6 md:my-0">
