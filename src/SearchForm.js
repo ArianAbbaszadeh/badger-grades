@@ -64,8 +64,14 @@ function SearchForm({
 
     const filteredSubjects = subjects.filter(
         (s) =>
-            s.name.toLowerCase().includes(subjectSearch.toLowerCase()) ||
-            s.abbr.toLowerCase().includes(subjectSearch.toLowerCase())
+            s.name
+                .replace(/\s/g, "")
+                .toLowerCase()
+                .includes(subjectSearch.toLowerCase()) ||
+            s.abbr
+                .replace(/\s/g, "")
+                .toLowerCase()
+                .includes(subjectSearch.toLowerCase())
     );
 
     const response_course = require("./courses.json");
@@ -73,8 +79,14 @@ function SearchForm({
 
     const filteredCourses = courses.filter(
         (c) =>
-            c.name.toLowerCase().includes(courseSearch.toLowerCase()) ||
-            c.title.toLowerCase().includes(courseSearch.toLowerCase())
+            c.name
+                .replace(/\s/g, "")
+                .toLowerCase()
+                .includes(courseSearch.toLowerCase()) ||
+            c.title
+                .replace(/\s/g, "")
+                .toLowerCase()
+                .includes(courseSearch.toLowerCase())
     );
 
     const handleSubjectChange = (selected) => {

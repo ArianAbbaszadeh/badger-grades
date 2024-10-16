@@ -25,13 +25,23 @@ function Dropdown({ options, onSelect, placeholder = "Select an option" }) {
 
     const handleSearch = (event) => {
         const value = event.target.value;
+        console.log("Original search term:", value);
+
+        const cleanedValue = value.replace(/\s/g, "").toLowerCase();
+        console.log("Cleaned search term:", cleanedValue);
+
         setSearchTerm(value);
-        const filtered = options.filter((option) =>
-            option.label.toLowerCase().includes(value.toLowerCase())
-        );
+
+        const filtered = options.filter((option) => {
+            const cleanedLabel = option.label.replace(/\s/g, "").toLowerCase();
+            console.log("Comparing:", cleanedLabel, "with", cleanedValue);
+            return cleanedLabel.includes(cleanedValue);
+        });
+
+        console.log("Filtered options:", filtered);
+
         setFilteredOptions(filtered);
     };
-
     useEffect(() => {
         function handleClickOutside(event) {
             if (
